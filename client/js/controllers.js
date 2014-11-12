@@ -2,28 +2,30 @@ var atelierControllers = angular.module('atelierControllers', []);
 
 atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
-	$scope.callApi = function(){
-		// $http.post('http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier', {atelier : 'Hello World!!'}).success(function(data){
-		// 	console.log(data)
-		// })
-		// .error(function(err){
-		// 	console.log(err)
-		// })
+	$scope.postData = function(){
 
 	var datum = {
-		"atelier" : {
-			"name" : "Hello",
-			"id" : "World"
-		}
+			id:1,
+			title:"titre1",
+			lab:"LaBRI",
+			theme:"Theme1",
+			location:"CNRS, TALENCE",
+			type: "type1",
+			duration:"1h30",
+			capacity:"120",
+			summary:"Some stuff happening somewhere",
+			anim:"Marc Fgrijzd",
+			partners:"LaBRI",
+			content:"IT",
+			visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
+			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+		
 	}
 	$http({
        method: 'POST',
        url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier',
        data: datum,
-        // headers: {
-        //     'Content-Type': 'application/x-www-form-urlencoded'
-   // }
-}).success(function(data){
+             }).success(function(data){
    		console.log(data)
    });
 

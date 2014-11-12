@@ -44,12 +44,11 @@ public class Atelier {
 	
 	@OPTIONS
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String testOption(@Context HttpServletResponse servletResponse){
+	public void testOption(@Context HttpServletResponse servletResponse){
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
-		return "OPTION is working";
 	}
 
 }
