@@ -1,7 +1,33 @@
 var atelierControllers = angular.module('atelierControllers', []);
 
-atelierControllers.controller('atelierListCtrl', function ($scope) {
+atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
+	$scope.callApi = function(){
+		// $http.post('http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier', {atelier : 'Hello World!!'}).success(function(data){
+		// 	console.log(data)
+		// })
+		// .error(function(err){
+		// 	console.log(err)
+		// })
+
+	var datum = {
+		"atelier" : {
+			"name" : "Hello",
+			"id" : "World"
+		}
+	}
+	$http({
+       method: 'POST',
+       url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier',
+       data: datum,
+        // headers: {
+        //     'Content-Type': 'application/x-www-form-urlencoded'
+   // }
+}).success(function(data){
+   		console.log(data)
+   });
+
+	}
 	// Dummy data to be replaced by real data extracted from server
 	$scope.ateliers = [];
 
