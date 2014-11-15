@@ -133,6 +133,15 @@ public class Atelier {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	@Override
+	public String toString() {
+		return "Atelier [id=" + id + ", title=" + title + ", lab=" + lab
+				+ ", theme=" + theme + ", location=" + location + ", type="
+				+ type + ", duration=" + duration + ", capacity=" + capacity
+				+ ", summary=" + summary + ", anim=" + anim + ", partners="
+				+ partners + ", content=" + content + "]";
+	}
 	
 	
 	

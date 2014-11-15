@@ -15,7 +15,7 @@ public class CNRSApp extends Application{
 	public Set<Class<?>> getClasses() {
 		Set<Class<?>> classes = new HashSet<>();	
 		classes.add(Init.class);
-		classes.add(Atelier.class);
+		classes.add(API.class);
 		return classes;
 	}
 }

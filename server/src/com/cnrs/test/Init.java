@@ -25,9 +25,7 @@ public class Init {
 	public String init() { 
 		
 		System.out.println("Init started");
-		
-		String connectionURL = "jdbc:mysql://localhost:3306/cnrs";
-		
+				
 		String queryAtelier="CREATE TABLE IF NOT EXISTS ateliers"
 				+ "("
 				+ "atelier_ID int NOT NULL PRIMARY KEY,"
@@ -71,7 +69,7 @@ public class Init {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			connection = DriverManager.getConnection(connectionURL, Config.usernameDB, Config.passwordDB);
+			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			
 			 s = (PreparedStatement) connection.prepareStatement(queryAtelier, Statement.RETURN_GENERATED_KEYS);
 			 s.executeUpdate();
