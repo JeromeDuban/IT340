@@ -2,10 +2,12 @@ var atelierControllers = angular.module('atelierControllers', []);
 
 atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
+	// POST DATA 
+
 	$scope.postData = function(){
 
 	var datum = {
-			id:1,
+			id:2,
 			title:"titre1",
 			lab:"LaBRI",
 			theme:"Theme1",
@@ -28,6 +30,23 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
              }).success(function(data){
    		console.log(data)
    });
+
+
+    // DELETE DATA
+
+	// $scope.deleteData = function(){
+
+	// var datum = {
+	// 		id:1
+	// }
+
+	// $http({
+ //       method: 'DELETE',
+ //       url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier',
+ //       data: datum,
+ //             }).success(function(data){
+ //   		console.log(data)
+ //   	});
 
 	}
 	// Dummy data to be replaced by real data extracted from server
