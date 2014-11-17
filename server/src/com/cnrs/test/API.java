@@ -3,6 +3,7 @@ package com.cnrs.test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -97,7 +99,22 @@ public class API {
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
-		return "GET is working";
+		
+		try {
+			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
+			
+			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers`", Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = s.executeQuery();
+			
+			return convertToJSON(rs).toString();			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "ERROR";
 	}
 	
 	@OPTIONS
@@ -108,5 +125,20 @@ public class API {
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 	}
+	
+	public static JSONArray convertToJSON(ResultSet resultSet)
+            throws Exception {
+        JSONArray jsonArray = new JSONArray();
+        while (resultSet.next()) {
+            int total_rows = resultSet.getMetaData().getColumnCount();
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < total_rows; i++) {
+                obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
+                        .toLowerCase(), resultSet.getObject(i + 1));
+            }
+            jsonArray.put(obj);
+        }
+        return jsonArray;
+    }
 
 }
