@@ -25,7 +25,7 @@ import com.cnrs.test.object.Atelier;
 import com.google.common.net.HttpHeaders;
 
 
-@Path("/atelier/")
+@Path("/ateliers/")
 public class API {
 
 	Connection connection = null;
