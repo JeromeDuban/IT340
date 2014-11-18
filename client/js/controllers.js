@@ -7,7 +7,11 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 	$scope.postData = function(){
 
 		var datum = {
+<<<<<<< HEAD
+			id:2,
+=======
 			id:1,
+>>>>>>> 8e3f50a50eeb43b5886c3ff59e05fc2ebdfdefec
 			title:"titre1",
 			lab:"LaBRI",
 			theme:"Theme1",
@@ -21,6 +25,18 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			content:"IT",
 			visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
 			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+<<<<<<< HEAD
+
+		}
+		$http({
+			method: 'POST',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier',
+			data: datum,
+		}).success(function(data){
+			console.log(data)
+		});
+=======
+>>>>>>> 8e3f50a50eeb43b5886c3ff59e05fc2ebdfdefec
 
 		}
 		$http({
@@ -69,6 +85,9 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
 			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
 
+<<<<<<< HEAD
+}
+=======
 		}
 		$http({
 			method: 'POST',
@@ -81,6 +100,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     
 
 	
+>>>>>>> 8e3f50a50eeb43b5886c3ff59e05fc2ebdfdefec
 	// Dummy data to be replaced by real data extracted from server
 	$scope.ateliers = [];
 
@@ -98,33 +118,61 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
 })
 
-atelierControllers.controller('atelierFormCtrl', function ($scope, $location) {
+atelierControllers.controller('atelierFormCtrl', function ($scope, $location, $http) {
+
+	
 
 	var checkBoxs = function(nm, ck){
 		return {name : nm, checked: ck};
 	}
 	$scope.atelier = {};
 
-	if(location.href.indexOf('?')>-1) {
-		$scope.atelier = {
-			id:1,
-			title:"titre1",
-			lab:"LaBRI",
-			theme:"Theme1",
-			location:"CNRS, TALENCE",
-			type: "type1",
-			duration:"1h30",
-			capacity:"120",
-			summary:"Some stuff happening somewhere",
-			anim:"Marc Fgrijzd",
-			partners:"LaBRI",
-			content:"IT",
-			visitors : [checkBoxs('Lycée', true), checkBoxs('Collège', false)],
-			horaires : [checkBoxs('Mercredi matin', true), checkBoxs('Jeudi Après-midi', false)]
-		};
-	}
+	// if(location.href.indexOf('?')>-1) {
+	// 	$scope.atelier = {
+	// 		id:1,
+	// 		title:"titre1",
+	// 		lab:"LaBRI",
+	// 		theme:"Theme1",
+	// 		location:"CNRS, TALENCE",
+	// 		type: "type1",
+	// 		duration:"1h30",
+	// 		capacity:"120",
+	// 		summary:"Some stuff happening somewhere",
+	// 		anim:"Marc Fgrijzd",
+	// 		partners:"LaBRI",
+	// 		content:"IT",
+	// 		visitors : [checkBoxs('Lycée', true), checkBoxs('Collège', false)],
+	// 		horaires : [checkBoxs('Mercredi matin', true), checkBoxs('Jeudi Après-midi', false)]
+	// 	};
+	// }
 
 	$scope.submit = function(){
-		console.log($scope.atelier);
+		if (isFilled($scope.atelier, $scope.$$listeners.$destroy.length)){
+			$scope.atelier.id = 13;
+			$http({
+				method: 'POST',
+				url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+				data: $scope.atelier,
+			}).success(function(data){
+				console.log(data)
+			});
+
+		} else {
+			console.log("not yet")
+		}
+		
 	}
 })
+
+function isFilled(atelier, numberOfFields){
+	var hasAllKeys = Object.keys(atelier).length == numberOfFields;
+	var allKeysFilled = true;
+
+	if (hasAllKeys){
+		Object.keys(atelier).forEach(function(d){
+			allKeysFilled = atelier[d].length > 0;
+		})
+	}
+	return hasAllKeys ? allKeysFilled : hasAllKeys;
+}
+
