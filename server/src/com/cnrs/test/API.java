@@ -62,10 +62,10 @@ public class API {
 			atelier.setPartners(json.getString("partners"));
 			
 			String queryInsert = "INSERT INTO `ateliers`"
-					+ "(`atelier_ID`, `title`, `lab`, `theme`, `location`, `type`,"
+					+ "(`title`, `lab`, `theme`, `location`, `type`,"
 					+ " `duration`, `capacity`, `summary`, `anim`, `partners`,"
 					+ " `content`, `public_list`, `horaires_list`) VALUES"
-					+ " ("+ atelier.getId() +","
+					+ " ("/*+ atelier.getId() +","*/
 					+ "\""+ atelier.getTitle() +"\","
 					+ "\""+ atelier.getLab() +"\","
 					+ "\""+ atelier.getTheme()+"\","
