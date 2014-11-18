@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +32,7 @@ public class API {
 	Connection connection = null;
 	PreparedStatement s = null;
 	
-	
+	/* ajouter un atelier */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String newTodo(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
@@ -93,6 +94,7 @@ public class API {
 		return input;
 	}
 	
+	/* Lister les ateliers */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String test(@Context HttpServletResponse servletResponse){
@@ -118,6 +120,7 @@ public class API {
 		return "ERROR";
 	}
 	
+	/* Supprimer un atelier */
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String testDelete(String input, @Context HttpServletResponse servletResponse){
@@ -149,8 +152,7 @@ public class API {
 		
 		return "KO";
 	}
-	
-	
+		
 	@OPTIONS
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public void testOption(@Context HttpServletResponse servletResponse){
@@ -159,7 +161,6 @@ public class API {
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 	}
-	
 	
 	
 	public static JSONArray convertToJSON(ResultSet resultSet)
