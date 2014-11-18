@@ -31,7 +31,7 @@ public class API {
 	Connection connection = null;
 	PreparedStatement s = null;
 	
-	
+	/* ajouter un atelier */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String newTodo(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
@@ -94,6 +94,7 @@ public class API {
 		return input;
 	}
 	
+	/* Editer un atelier */
 	@POST
 	@Path("/update/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -148,6 +149,7 @@ public class API {
 		return "OK";
 	}
 	
+	/* Lister les ateliers */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String test(@Context HttpServletResponse servletResponse){
@@ -173,6 +175,7 @@ public class API {
 		return "ERROR";
 	}
 	
+	/* Supprimer un atelier */
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String testDelete(String input, @Context HttpServletResponse servletResponse){
@@ -204,8 +207,7 @@ public class API {
 		
 		return "KO";
 	}
-	
-	
+		
 	@OPTIONS
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public void option(@Context HttpServletResponse servletResponse){
@@ -224,7 +226,6 @@ public class API {
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 	}
-	
 	
 	
 	public static JSONArray convertToJSON(ResultSet resultSet)
