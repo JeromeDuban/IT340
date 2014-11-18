@@ -55,19 +55,17 @@ public class Test {
 			
 			String queryUpdate = "UPDATE `ateliers` SET "
 					+ "`title`=\""+ atelier.getTitle() +"\","
-					+ "`lab`=[value-3],"
-					+ "`theme`=[value-4],"
-					+ "`location`=[value-5],"
-					+ "`type`=[value-6],"
-					+ "`duration`=[value-7],"
-					+ "`capacity`=[value-8],"
-					+ "`summary`=[value-9],"
-					+ "`anim`=[value-10],"
-					+ "`partners`=[value-11],"
-					+ "`content`=[value-12],"
-					+ "`public_list`=[value-13],"
-					+ "`horaires_list`=[value-14] "
-					+ "WHERE 1";
+					+ "`lab`=\""+ atelier.getLab() +"\","
+					+ "`theme`=\""+ atelier.getTheme() +"\","
+					+ "`location`=\""+ atelier.getLocation() +"\","
+					+ "`type`=\""+ atelier.getType() +"\","
+					+ "`duration`=\""+ atelier.getDuration() +"\","
+					+ "`capacity`=\""+ atelier.getCapacity() +"\","
+					+ "`summary`=\""+ atelier.getSummary() +"\","
+					+ "`anim`=\""+ atelier.getAnim() +"\","
+					+ "`partners`=\""+ atelier.getPartners() +"\","
+					+ "`content`=\""+ atelier.getContent() +"\","
+					+ "WHERE `atelier_ID`="+atelier.getId();
 			
 			System.out.println(queryInsert);
 			System.out.println(queryUpdate);
