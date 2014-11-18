@@ -53,7 +53,22 @@ public class Test {
 					+ "\"TBD\","
 					+ "\"TBD\")";
 			
+			String queryUpdate = "UPDATE `ateliers` SET "
+					+ "`title`=\""+ atelier.getTitle() +"\","
+					+ "`lab`=\""+ atelier.getLab() +"\","
+					+ "`theme`=\""+ atelier.getTheme() +"\","
+					+ "`location`=\""+ atelier.getLocation() +"\","
+					+ "`type`=\""+ atelier.getType() +"\","
+					+ "`duration`=\""+ atelier.getDuration() +"\","
+					+ "`capacity`=\""+ atelier.getCapacity() +"\","
+					+ "`summary`=\""+ atelier.getSummary() +"\","
+					+ "`anim`=\""+ atelier.getAnim() +"\","
+					+ "`partners`=\""+ atelier.getPartners() +"\","
+					+ "`content`=\""+ atelier.getContent() +"\","
+					+ "WHERE `atelier_ID`="+atelier.getId();
+			
 			System.out.println(queryInsert);
+			System.out.println(queryUpdate);
 			
 		} catch (JSONException e) {
 			e.printStackTrace();

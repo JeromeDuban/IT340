@@ -7,7 +7,11 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 	$scope.postData = function(){
 
 		var datum = {
+<<<<<<< HEAD
 			id:2,
+=======
+			id:1,
+>>>>>>> 8e3f50a50eeb43b5886c3ff59e05fc2ebdfdefec
 			title:"titre1",
 			lab:"LaBRI",
 			theme:"Theme1",
@@ -21,6 +25,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			content:"IT",
 			visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
 			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+<<<<<<< HEAD
 
 		}
 		$http({
@@ -30,25 +35,72 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 		}).success(function(data){
 			console.log(data)
 		});
+=======
+>>>>>>> 8e3f50a50eeb43b5886c3ff59e05fc2ebdfdefec
 
+		}
+		$http({
+			method: 'POST',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+			data: datum,
+		}).success(function(data){
+			console.log(data)
+		});
+	}
 
     // DELETE DATA
 
-	// $scope.deleteData = function(){
+    $scope.deleteData = function(){
 
-	// var datum = {
-	// 		id:1
-	// }
+    	var datum = {
+    		id:1
+    	}
 
-	// $http({
- //       method: 'DELETE',
- //       url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier',
- //       data: datum,
- //             }).success(function(data){
- //   		console.log(data)
- //   	});
+    	$http({
+    		method: 'DELETE',
+    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+    		data: datum,
+    	}).success(function(data){
+    		console.log(data)
+    	});
+    }
 
+    // UPDATE DATA
+
+    $scope.updateData = function(){
+
+    	var datum = {
+			id:1,
+			title:"titre modifié",
+			lab:"LaBRI",
+			theme:"Theme1",
+			location:"CNRS, TALENCE",
+			type: "type1",
+			duration:"1h30",
+			capacity:"120",
+			summary:"Some stuff happening somewhere",
+			anim:"Marc Fgrijzd",
+			partners:"LaBRI",
+			content:"IT",
+			visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
+			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+
+<<<<<<< HEAD
 }
+=======
+		}
+		$http({
+			method: 'POST',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/update',
+			data: datum,
+		}).success(function(data){
+			console.log(data)
+		});
+	}
+    
+
+	
+>>>>>>> 8e3f50a50eeb43b5886c3ff59e05fc2ebdfdefec
 	// Dummy data to be replaced by real data extracted from server
 	$scope.ateliers = [];
 
