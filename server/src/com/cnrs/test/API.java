@@ -13,7 +13,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -41,7 +40,7 @@ public class API {
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 		
-		System.out.println("Input :" + input);
+		System.out.println("CREATE > Input :" + input);
 		
 		Atelier atelier= new Atelier();
 		
@@ -59,6 +58,7 @@ public class API {
 			atelier.setCapacity(json.getString("capacity"));
 			atelier.setSummary(json.getString("summary"));
 			atelier.setAnim(json.getString("anim"));
+			atelier.setContent(json.getString("content"));
 			atelier.setPartners(json.getString("partners"));
 			
 			String queryInsert = "INSERT INTO `ateliers`"
@@ -92,6 +92,61 @@ public class API {
 			
 		
 		return input;
+	}
+	
+	/* Editer un atelier */
+	@POST
+	@Path("/update/")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String newUpdate(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		servletResponse.setHeader("Access-Control-Max-Age", "3600");
+		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
+		
+		System.out.println("UPDATE > Input :" + input);
+		
+		Atelier atelier= new Atelier();
+		
+		try {
+			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
+			JSONObject json = new JSONObject(input);
+			
+			atelier.setId(json.getInt("id"));
+			atelier.setTitle(json.getString("title"));
+			atelier.setLab(json.getString("lab"));
+			atelier.setTheme(json.getString("theme"));
+			atelier.setLocation(json.getString("location"));
+			atelier.setType(json.getString("type"));
+			atelier.setDuration(json.getString("duration"));
+			atelier.setCapacity(json.getString("capacity"));
+			atelier.setSummary(json.getString("summary"));
+			atelier.setAnim(json.getString("anim"));
+			atelier.setPartners(json.getString("partners"));
+			
+			String queryUpdate = "UPDATE `ateliers` SET "
+					+ "`title`=\""+ atelier.getTitle() +"\","
+					+ "`lab`=\""+ atelier.getLab() +"\","
+					+ "`theme`=\""+ atelier.getTheme() +"\","
+					+ "`location`=\""+ atelier.getLocation() +"\","
+					+ "`type`=\""+ atelier.getType() +"\","
+					+ "`duration`=\""+ atelier.getDuration() +"\","
+					+ "`capacity`=\""+ atelier.getCapacity() +"\","
+					+ "`summary`=\""+ atelier.getSummary() +"\","
+					+ "`anim`=\""+ atelier.getAnim() +"\","
+					+ "`partners`=\""+ atelier.getPartners() +"\","
+					+ "`content`=\""+ atelier.getContent() +"\""
+					+ "WHERE `atelier_ID`="+atelier.getId();
+			
+			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
+			s.executeUpdate();
+						
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "OK";
 	}
 	
 	/* Lister les ateliers */
@@ -155,7 +210,17 @@ public class API {
 		
 	@OPTIONS
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public void testOption(@Context HttpServletResponse servletResponse){
+	public void option(@Context HttpServletResponse servletResponse){
+		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		servletResponse.setHeader("Access-Control-Max-Age", "3600");
+		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
+	}
+	
+	@OPTIONS
+	@Path("/update/")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public void optionUpdate(@Context HttpServletResponse servletResponse){
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
