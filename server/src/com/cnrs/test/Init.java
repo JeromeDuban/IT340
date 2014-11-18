@@ -28,7 +28,7 @@ public class Init {
 				
 		String queryAtelier="CREATE TABLE IF NOT EXISTS ateliers"
 				+ "("
-				+ "atelier_ID int NOT NULL PRIMARY KEY,"
+				+ "atelier_ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,"
 				+ "title varchar(1000),"
 				+ "lab varchar(1000),"
 				+ "theme varchar(1000),"
