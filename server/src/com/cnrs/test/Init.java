@@ -28,7 +28,7 @@ public class Init {
 				
 		String queryAtelier="CREATE TABLE IF NOT EXISTS ateliers"
 				+ "("
-				+ "atelier_ID int NOT NULL PRIMARY KEY,"
+				+ "atelier_ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,"
 				+ "title varchar(1000),"
 				+ "lab varchar(1000),"
 				+ "theme varchar(1000),"
@@ -49,19 +49,27 @@ public class Init {
 				+ "("
 				+ "item_ID int NOT NULL,"
 				+ "public_ID int NOT NULL,"
-				+ "atelier_ID int NOT NULL,"
 				+ "PRIMARY KEY (item_ID),"
-				+ "FOREIGN KEY (atelier_ID) REFERENCES ateliers(atelier_ID)"
 				+ ");";
 		
 		String queryHoraires ="CREATE TABLE IF NOT EXISTS horaires_list"
 				+ "("
 				+ "item_ID int NOT NULL,"
 				+ "horaire_ID int NOT NULL,"
-				+ "atelier_ID int NOT NULL,"
 				+ "PRIMARY KEY (item_ID),"
-				+ "FOREIGN KEY (atelier_ID) REFERENCES ateliers(atelier_ID)"
 				+ ");";
+		
+		String queryAddPublic = "INSERT INTO `public_list`"
+				+ "(`item_ID`, `public_ID`) VALUES"
+				+ "(1,'Primaire'),"
+				+ "(2, '6ieme5ieme'),"
+				+ "(3, '4ieme3ieme'),"
+				+ "(4, '2nde'),"
+				+ "(5, '1ere'),"
+				+ "(6, 'Tale'),"
+				+ "(7, 'Prepa'),"
+				+ "(8, 'Universite'),"
+				+ ";";
 		
 		Connection connection = null;
 		PreparedStatement s = null;
@@ -80,6 +88,8 @@ public class Init {
 			 s = (PreparedStatement) connection.prepareStatement(queryHoraires, Statement.RETURN_GENERATED_KEYS);
 			 s.executeUpdate();
 			 
+			 s = (PreparedStatement) connection.prepareStatement(queryAddPublic, Statement.RETURN_GENERATED_KEYS);
+			 s.executeUpdate();
 			 
 		} catch (InstantiationException e){
 			e.printStackTrace();
