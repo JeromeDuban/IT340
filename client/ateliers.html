@@ -88,72 +88,73 @@
                 <div class="container-fluid">
 
                     <div class="row">
+                    <form role="form">
                         <div class="col-lg-6">
 
-                            <form role="form">
+                            
 
                                 <div class="form-group">
                                     <label>Titre</label>
-                                    <input class="form-control" ng-model="atelier.title">
+                                    <input class="form-control" ng-model="atelier.title" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Thème</label>
-                                    <input class="form-control" ng-model="atelier.theme">
+                                    <input class="form-control" ng-model="atelier.theme" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Type</label>
-                                    <input class="form-control" ng-model="atelier.type">
+                                    <input class="form-control" ng-model="atelier.type" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Laboratoire</label>
-                                    <input class="form-control" ng-model="atelier.lab">
+                                    <input class="form-control" ng-model="atelier.lab" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Lieu</label>
-                                    <textarea class="form-control" ng-model="atelier.location" rows="3"></textarea>
+                                    <textarea class="form-control" ng-model="atelier.location" rows="3" ng-required="true"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Durée de l'atelier</label>
-                                    <input class="form-control"  ng-model="atelier.duration">
+                                    <input class="form-control"  ng-model="atelier.duration" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Capacité</label>
-                                    <input class="form-control"  ng-model="atelier.capacity">
+                                    <input class="form-control"  ng-model="atelier.capacity" ng-required="true">
                                 </div>
 
                                 <button type="submit" class="btn btn-default" ng-click="submit()">Submit Button</button>
                                 <button type="reset" class="btn btn-default">Reset Button</button>
 
-                            </form>
+                        
 
                         </div>
                         <div class="col-lg-6">
-                            <form role="form">
+                            
 
                                 <div class="form-group">
                                     <label>Résumé</label>
-                                    <textarea class="form-control"  ng-model="atelier.summary" rows="3"></textarea>
+                                    <textarea class="form-control"  ng-model="atelier.summary" rows="3" ng-required="true"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Animateur/Conférencier</label>
-                                    <input class="form-control" ng-model="atelier.anim">
+                                    <input class="form-control" ng-model="atelier.anim" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Partenaires</label>
-                                    <input class="form-control" ng-model="atelier.partners">
+                                    <input class="form-control" ng-model="atelier.partners" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Contenu pédagogique et disciplines visées</label>
-                                    <input class="form-control" ng-model="atelier.content">
+                                    <input class="form-control" ng-model="atelier.content" ng-required="true">
                                 </div>
 
                                 <div class="form-group">
@@ -173,10 +174,11 @@
                                     </div>
                                 </div>
 
-                            </form>
+                            
 
 
                         </div>
+                        </form>
                     </div>
                     <!-- /.row -->
 
