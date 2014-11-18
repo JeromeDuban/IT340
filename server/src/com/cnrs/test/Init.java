@@ -48,19 +48,19 @@ public class Init {
 		String queryPublic="CREATE TABLE IF NOT EXISTS public_list"
 				+ "("
 				+ "item_ID int NOT NULL,"
-				+ "public_ID int NOT NULL,"
-				+ "PRIMARY KEY (item_ID),"
+				+ "public varchar(1000) NOT NULL,"
+				+ "PRIMARY KEY (item_ID)"
 				+ ");";
 		
 		String queryHoraires ="CREATE TABLE IF NOT EXISTS horaires_list"
 				+ "("
 				+ "item_ID int NOT NULL,"
-				+ "horaire_ID int NOT NULL,"
-				+ "PRIMARY KEY (item_ID),"
+				+ "horaire varchar(1000) NOT NULL,"
+				+ "PRIMARY KEY (item_ID)"
 				+ ");";
 		
 		String queryAddPublic = "INSERT INTO `public_list`"
-				+ "(`item_ID`, `public_ID`) VALUES"
+				+ "(`item_ID`, `public`) VALUES"
 				+ "(1,'Primaire'),"
 				+ "(2, '6ieme5ieme'),"
 				+ "(3, '4ieme3ieme'),"
@@ -68,8 +68,10 @@ public class Init {
 				+ "(5, '1ere'),"
 				+ "(6, 'Tale'),"
 				+ "(7, 'Prepa'),"
-				+ "(8, 'Universite'),"
+				+ "(8, 'Universite')"
 				+ ";";
+		
+		System.out.println(queryAddPublic);
 		
 		Connection connection = null;
 		PreparedStatement s = null;
