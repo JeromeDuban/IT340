@@ -71,6 +71,20 @@ public class Init {
 				+ "(8, 'Universite')"
 				+ ";";
 		
+		String queryAddHoraires = "INSERT INTO `horaires_list`"
+				+ "(`item_ID`, `horaire`) VALUES"
+				+ "(1, 'Lundi matin'),"
+				+ "(2, 'Lundi après-midi'),"
+				+ "(3, 'Mardi matin'),"
+				+ "(4, 'Mardi après-midi'),"
+				+ "(5, 'Mercredi matin'),"
+				+ "(6, 'Mercredi après-midi'),"
+				+ "(7, 'Jeudi matin'),"
+				+ "(8, 'Jeudi après-midi')"
+				+ "(9, 'Vendredi matin'),"
+				+ "(10, 'Vendredi après-midi')"
+				+ ";";
+		
 		System.out.println(queryAddPublic);
 		
 		Connection connection = null;
@@ -91,6 +105,9 @@ public class Init {
 			 s.executeUpdate();
 			 
 			 s = (PreparedStatement) connection.prepareStatement(queryAddPublic, Statement.RETURN_GENERATED_KEYS);
+			 s.executeUpdate();
+			 
+			 s = (PreparedStatement) connection.prepareStatement(queryAddHoraires, Statement.RETURN_GENERATED_KEYS);
 			 s.executeUpdate();
 			 
 		} catch (InstantiationException e){
