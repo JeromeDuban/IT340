@@ -1,9 +1,13 @@
 package com.cnrs.test;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cnrs.test.object.Atelier;
+import com.cnrs.test.object.Visitor;
 
 
 public class Test {
@@ -12,7 +16,19 @@ public class Test {
 	
 	public static void main(String[] args) {
 	
-		String test = "{id:1,title:\"titre1\",lab:\"LaBRI\", theme:\"Theme1\", location:\"CNRS, TALENCE\", type: \"type1\", duration:\"1h30\", capacity:\"120\", summary:\"Some stuff happening somewhere\", anim:\"Marc Fgrijzd\", partners:\"LaBRI\", content:\"IT\", visitors : [{name : \"Lycée\", checked: true}, {name : \"Collège\", checked: false}], horaires : [{name:\"Mercredi matin\", checked: true}, {name : \"Jeudi Après-midi\", checked: false}]}";
+		String test = "{id:1,title:\"titre1\","
+				+ "lab:\"LaBRI\","
+				+ " theme:\"Theme1\","
+				+ " location:\"CNRS, TALENCE\","
+				+ " type: \"type1\","
+				+ " duration:\"1h30\","
+				+ " capacity:\"120\","
+				+ " summary:\"Some stuff happening somewhere\","
+				+ " anim:\"Marc Fgrijzd\","
+				+ " partners:\"LaBRI\","
+				+ " content:\"IT\","
+				+ " visitors : [{id : 1, name : \"Primaire\"}, {id : 8, name : \"Universite\"}],"
+				+ " horaires : [\"1\", \"10\"]}";
 		Atelier atelier= new Atelier();
 		
 		
@@ -32,6 +48,24 @@ public class Test {
 			atelier.setPartners(json.getString("partners"));
 			atelier.setContent(json.getString("content"));
 			
+			JSONArray publicJArray = json.getJSONArray("visitors");
+
+			ArrayList<Visitor> publicArrayList = new ArrayList<Visitor>();
+			JSONObject jj;
+			for (int i = 0; i < publicJArray.length(); i++) {
+				Visitor visitor = new Visitor();
+				jj = (JSONObject) publicJArray.get(i);
+
+				visitor.setId(jj.getInt("id"));
+				visitor.setName(jj.getString("name"));
+				publicArrayList.add(visitor);
+//				System.out.println("publicArrayList = " + publicArrayList.toString());
+			}
+			atelier.setPublic_list(publicArrayList);
+			
+//			String vis = publicJArray.toString();
+//			System.out.println("vis = "+vis);
+			
 			System.out.println(atelier.toString());
 			
 			String queryInsert = "INSERT INTO `ateliers`"
@@ -50,7 +84,7 @@ public class Test {
 					+ "\""+atelier.getAnim()+"\","
 					+ "\""+atelier.getPartners()+"\","
 					+ "\""+atelier.getContent()+"\","
-					+ "\"TBD\","
+					+ "\""+atelier.getPublic_list()+"\","
 					+ "\"TBD\")";
 			
 			String queryUpdate = "UPDATE `ateliers` SET "
@@ -65,6 +99,7 @@ public class Test {
 					+ "`anim`=\""+ atelier.getAnim() +"\","
 					+ "`partners`=\""+ atelier.getPartners() +"\","
 					+ "`content`=\""+ atelier.getContent() +"\","
+					+ "`public_list`=\"" + atelier.getPublic_list() +"\","
 					+ "WHERE `atelier_ID`="+atelier.getId();
 			
 			System.out.println(queryInsert);

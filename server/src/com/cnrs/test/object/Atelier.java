@@ -1,5 +1,7 @@
 package com.cnrs.test.object;
 
+import java.util.ArrayList;
+
 public class Atelier {
 	
 	public int id;
@@ -14,6 +16,8 @@ public class Atelier {
 	public String anim;
 	public String partners;
 	public String content;
+	public ArrayList<Visitor> public_list;
+	public ArrayList<?> horaires_list;
 	
 	
 	public Atelier() {
@@ -22,7 +26,8 @@ public class Atelier {
 	
 	public Atelier(int id, String title, String lab, String theme,
 			String location, String type, String duration, String capacity,
-			String summary, String anim, String partners, String content) {
+			String summary, String anim, String partners, String content,
+			ArrayList<Visitor> public_list, ArrayList<?> horaires_list) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -36,6 +41,8 @@ public class Atelier {
 		this.anim = anim;
 		this.partners = partners;
 		this.content = content;
+		this.public_list = public_list;
+		this.horaires_list = horaires_list;
 	}
 
 	public int getId() {
@@ -134,13 +141,30 @@ public class Atelier {
 		this.content = content;
 	}
 
+	public ArrayList<Visitor> getPublic_list() {
+		return public_list;
+	}
+
+	public void setPublic_list(ArrayList<Visitor> public_list) {
+		this.public_list = public_list;
+	}
+
+	public ArrayList<?> getHoraires_list() {
+		return horaires_list;
+	}
+
+	public void setHoraires_list(ArrayList<?> horaires_list) {
+		this.horaires_list = horaires_list;
+	}
+	
 	@Override
 	public String toString() {
 		return "Atelier [id=" + id + ", title=" + title + ", lab=" + lab
 				+ ", theme=" + theme + ", location=" + location + ", type="
 				+ type + ", duration=" + duration + ", capacity=" + capacity
 				+ ", summary=" + summary + ", anim=" + anim + ", partners="
-				+ partners + ", content=" + content + "]";
+				+ partners + ", content=" + content + ", public_list="
+				+ public_list + ", horaires_list=" + horaires_list + "]";
 	}
 	
 	

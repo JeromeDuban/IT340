@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 public class Init {
 
 	
-
 	@GET
 	@Path("/init/")												// initialisation de la base de données
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")

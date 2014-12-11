@@ -7,7 +7,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 	$scope.postData = function(){
 
 		var datum = {
-			id:2,
+			id:1,
 			title:"titre1",
 			lab:"LaBRI",
 			theme:"Theme1",
@@ -19,7 +19,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			anim:"Marc Fgrijzd",
 			partners:"LaBRI",
 			content:"IT",
-			visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
+			visitors : [{id : 1, name : "Primaire"}, {id : 6, name : "Tale"}],
 			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
 		}
 
@@ -33,7 +33,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
 		$http({
 			method: 'GET',
-			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers',
 			data: datum,
 		}).success(function(data){
 			console.log(data)
@@ -71,7 +71,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.updateData = function(){
 
     	var datum = {
-    		id:1,
+    		id:2,
     		title:"titre modifié",
     		lab:"LaBRI",
     		theme:"Theme1",
@@ -83,14 +83,14 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     		anim:"Marc Fgrijzd",
     		partners:"LaBRI",
     		content:"IT",
-    		visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
+    		visitors : [{id : 1, name : "Primaire"}, {id : 6, name : "Tale"}],
     		horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
 
     	}
 
     	$http({
     		method: 'POST',
-    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/update',
+    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers/update',
     		data: datum,
     	}).success(function(data){
     		console.log(data)

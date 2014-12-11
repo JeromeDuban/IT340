@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.DELETE;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cnrs.test.object.Atelier;
+import com.cnrs.test.object.Visitor;
 import com.google.common.net.HttpHeaders;
 
 
@@ -60,6 +62,20 @@ public class API {
 			atelier.setAnim(json.getString("anim"));
 			atelier.setContent(json.getString("content"));
 			atelier.setPartners(json.getString("partners"));
+
+			/* Set type of Public */
+			JSONArray publicJArray = json.getJSONArray("visitors");
+			ArrayList<Visitor> publicArrayList = new ArrayList<Visitor>();
+			JSONObject jsonObject;
+			for (int i = 0; i < publicJArray.length(); i++) {
+				Visitor visitor = new Visitor();
+				jsonObject = (JSONObject) publicJArray.get(i);
+
+				visitor.setId(jsonObject.getInt("id"));
+				visitor.setName(jsonObject.getString("name"));
+				publicArrayList.add(visitor);
+			}
+			atelier.setPublic_list(publicArrayList);
 			
 			String queryInsert = "INSERT INTO `ateliers`"
 					+ "(`title`, `lab`, `theme`, `location`, `type`,"
@@ -77,7 +93,7 @@ public class API {
 					+ "\""+ atelier.getAnim()+"\","
 					+ "\""+ atelier.getPartners()+"\","
 					+ "\""+ atelier.getContent()+"\","
-					+ "\"TBD\","
+					+ "\""+atelier.getPublic_list()+"\","
 					+ "\"TBD\")";
 			
 			s = (PreparedStatement) connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
@@ -124,6 +140,20 @@ public class API {
 			atelier.setAnim(json.getString("anim"));
 			atelier.setPartners(json.getString("partners"));
 			
+			/* Set type of Public */
+			JSONArray publicJArray = json.getJSONArray("visitors");
+			ArrayList<Visitor> publicArrayList = new ArrayList<Visitor>();
+			JSONObject jsonObject;
+			for (int i = 0; i < publicJArray.length(); i++) {
+				Visitor visitor = new Visitor();
+				jsonObject = (JSONObject) publicJArray.get(i);
+
+				visitor.setId(jsonObject.getInt("id"));
+				visitor.setName(jsonObject.getString("name"));
+				publicArrayList.add(visitor);
+			}
+			atelier.setPublic_list(publicArrayList);
+			
 			String queryUpdate = "UPDATE `ateliers` SET "
 					+ "`title`=\""+ atelier.getTitle() +"\","
 					+ "`lab`=\""+ atelier.getLab() +"\","
@@ -135,7 +165,8 @@ public class API {
 					+ "`summary`=\""+ atelier.getSummary() +"\","
 					+ "`anim`=\""+ atelier.getAnim() +"\","
 					+ "`partners`=\""+ atelier.getPartners() +"\","
-					+ "`content`=\""+ atelier.getContent() +"\""
+					+ "`content`=\""+ atelier.getContent() +"\","
+					+ "`public_list`=\"" + atelier.getPublic_list() +"\""  
 					+ "WHERE `atelier_ID`="+atelier.getId();
 			
 			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
