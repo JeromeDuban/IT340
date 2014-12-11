@@ -7,8 +7,8 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 	$scope.postData = function(){
 
 		var datum = {
-			id:1,
-			title:"titre1",
+			id:4,
+			title:"titre4",
 			lab:"LaBRI",
 			theme:"Theme1",
 			location:"CNRS, TALENCE",
@@ -19,7 +19,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			anim:"Marc Fgrijzd",
 			partners:"LaBRI",
 			content:"IT",
-			visitors : [{id : 1, name : "Primaire"}, {id : 6, name : "Tale"}],
+			visitors : [{id : 2, name : "6ieme5ieme"}, {id : 7, name : "Prepa"}],
 			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
 		}
 
@@ -54,7 +54,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.deleteData = function(){
 
     	var datum = {
-    		id:1
+    		id:2
     	}
 
     	$http({
@@ -90,7 +90,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
     	$http({
     		method: 'POST',
-    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers/update',
+    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/update',
     		data: datum,
     	}).success(function(data){
     		console.log(data)

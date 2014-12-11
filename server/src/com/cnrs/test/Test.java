@@ -49,13 +49,12 @@ public class Test {
 			atelier.setContent(json.getString("content"));
 			
 			JSONArray publicJArray = json.getJSONArray("visitors");
-
 			ArrayList<Visitor> publicArrayList = new ArrayList<Visitor>();
 			JSONObject jj;
 			for (int i = 0; i < publicJArray.length(); i++) {
 				Visitor visitor = new Visitor();
 				jj = (JSONObject) publicJArray.get(i);
-
+				
 				visitor.setId(jj.getInt("id"));
 				visitor.setName(jj.getString("name"));
 				publicArrayList.add(visitor);
@@ -63,10 +62,35 @@ public class Test {
 			}
 			atelier.setPublic_list(publicArrayList);
 			
+			
+			/* Test convertToJson */
+			String ts = "[{id : 1, name : \"Primaire\"}, {id : 8, name : \"Universite\"}]";
+			JSONArray jjA = new JSONArray(ts);
+			System.out.println("jjA= " +jjA);
+			
+			String tt = "{id:1,title:\"titre1\","
+					+ "lab:\"LaBRI\","
+					+ " theme:\"Theme1\","
+					+ " location:\"CNRS, TALENCE\","
+					+ " type: \"type1\","
+					+ " duration:\"1h30\","
+					+ " capacity:\"120\","
+					+ " summary:\"Some stuff happening somewhere\","
+					+ " anim:\"Marc Fgrijzd\","
+					+ " partners:\"LaBRI\","
+					+ " content:\"IT\"}";
+			JSONObject jo = new JSONObject(tt);
+			System.out.println("before jo= " + jo);
+			jo.put("visitors", jjA);
+			System.out.println("after jo= " + jo);
+			System.out.println(jo.getJSONArray("visitors"));
+			/* End Test convertToJson */
+			
+			
 //			String vis = publicJArray.toString();
 //			System.out.println("vis = "+vis);
 			
-			System.out.println(atelier.toString());
+//			System.out.println(atelier.toString());
 			
 			String queryInsert = "INSERT INTO `ateliers`"
 					+ "(`atelier_ID`, `title`, `lab`, `theme`, `location`, `type`,"
@@ -102,8 +126,8 @@ public class Test {
 					+ "`public_list`=\"" + atelier.getPublic_list() +"\","
 					+ "WHERE `atelier_ID`="+atelier.getId();
 			
-			System.out.println(queryInsert);
-			System.out.println(queryUpdate);
+//			System.out.println(queryInsert);
+//			System.out.println(queryUpdate);
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
