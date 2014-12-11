@@ -23,21 +23,21 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
 		}
 
-		/*$http({
+		$http({
 			method: 'POST',
 			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
 			data: datum,
 		}).success(function(data){
 			console.log(data)
-		});*/
+		});
 
-		$http({
+		/*$http({
 			method: 'GET',
 			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
 			data: datum,
 		}).success(function(data){
 			console.log(data)
-		});
+		});*/
 
 
 	}

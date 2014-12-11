@@ -28,7 +28,7 @@ public class Init {
 				
 		String queryAtelier="CREATE TABLE IF NOT EXISTS ateliers"
 				+ "("
-				+ "atelier_ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,"
+				+ "id int NOT NULL PRIMARY KEY AUTO_INCREMENT,"
 				+ "title varchar(1000),"
 				+ "lab varchar(1000),"
 				+ "theme varchar(1000),"
@@ -40,8 +40,8 @@ public class Init {
 				+ "anim varchar(1000),"
 				+ "partners varchar(1000),"
 				+ "content varchar(1000),"
-				+ "public_list varchar(1000),"
-				+ "horaires_list varchar(1000)"
+				+ "visitors varchar(1000),"
+				+ "horaires varchar(1000)"
 				+ ");";
 		
 
@@ -74,15 +74,15 @@ public class Init {
 		String queryAddHoraires = "INSERT INTO `horaires_list`"
 				+ "(`item_ID`, `horaire`) VALUES"
 				+ "(1, 'Lundi matin'),"
-				+ "(2, 'Lundi après-midi'),"
+				+ "(2, 'Lundi aprÃ¨s-midi'),"
 				+ "(3, 'Mardi matin'),"
-				+ "(4, 'Mardi après-midi'),"
+				+ "(4, 'Mardi aprÃ¨s-midi'),"
 				+ "(5, 'Mercredi matin'),"
-				+ "(6, 'Mercredi après-midi'),"
+				+ "(6, 'Mercredi aprÃ¨s-midi'),"
 				+ "(7, 'Jeudi matin'),"
-				+ "(8, 'Jeudi après-midi')"
+				+ "(8, 'Jeudi aprÃ¨s-midi'),"
 				+ "(9, 'Vendredi matin'),"
-				+ "(10, 'Vendredi après-midi')"
+				+ "(10, 'Vendredi aprÃ¨s-midi')"
 				+ ";";
 		
 		System.out.println(queryAddPublic);

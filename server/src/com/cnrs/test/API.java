@@ -32,9 +32,13 @@ public class API {
 	PreparedStatement s = null;
 	
 	/* ajouter un atelier */
+	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String newTodo(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+		
+		int affectedRows = 0;
+		
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
@@ -64,7 +68,7 @@ public class API {
 			String queryInsert = "INSERT INTO `ateliers`"
 					+ "(`title`, `lab`, `theme`, `location`, `type`,"
 					+ " `duration`, `capacity`, `summary`, `anim`, `partners`,"
-					+ " `content`, `public_list`, `horaires_list`) VALUES"
+					+ " `content`, `visitors`, `horaires`) VALUES"
 					+ " ("/*+ atelier.getId() +","*/
 					+ "\""+ atelier.getTitle() +"\","
 					+ "\""+ atelier.getLab() +"\","
@@ -81,7 +85,7 @@ public class API {
 					+ "\"TBD\")";
 			
 			s = (PreparedStatement) connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
-			s.executeUpdate();
+			affectedRows = s.executeUpdate();
 			
 			
 		} catch (JSONException e) {
@@ -90,15 +94,20 @@ public class API {
 			e.printStackTrace();
 		}
 			
+		System.out.println(Integer.toString(affectedRows));
 		
 		return input;
 	}
 	
 	/* Editer un atelier */
+	
 	@POST
 	@Path("/update/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String newUpdate(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+		
+		int affectedRows = 0;
+		
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
@@ -139,13 +148,15 @@ public class API {
 					+ "WHERE `atelier_ID`="+atelier.getId();
 			
 			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
-			s.executeUpdate();
+			affectedRows = s.executeUpdate();
 						
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println(Integer.toString(affectedRows));
 		return "OK";
 	}
 	
@@ -153,6 +164,7 @@ public class API {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String test(@Context HttpServletResponse servletResponse){
+		
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
@@ -179,6 +191,9 @@ public class API {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String testDelete(String input, @Context HttpServletResponse servletResponse){
+		
+		int affectedRows = 0;
+		
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
@@ -197,6 +212,7 @@ public class API {
 			s = (PreparedStatement) connection.prepareStatement(queryDelete, Statement.RETURN_GENERATED_KEYS);
 			s.executeUpdate();
 			
+			System.out.println(Integer.toString(affectedRows));
 			return "OK";			
 			
 		} catch (SQLException e) {
@@ -205,6 +221,7 @@ public class API {
 			e.printStackTrace();
 		}
 		
+		System.out.println(Integer.toString(affectedRows));
 		return "KO";
 	}
 		
