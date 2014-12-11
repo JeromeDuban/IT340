@@ -67,7 +67,9 @@ public class Test {
 			String ts = "[{id : 1, name : \"Primaire\"}, {id : 8, name : \"Universite\"}]";
 			JSONArray jjA = new JSONArray(ts);
 			System.out.println("jjA= " +jjA);
-			
+			if (ts.startsWith("[")) {
+				System.out.println("plop");
+			}
 			String tt = "{id:1,title:\"titre1\","
 					+ "lab:\"LaBRI\","
 					+ " theme:\"Theme1\","

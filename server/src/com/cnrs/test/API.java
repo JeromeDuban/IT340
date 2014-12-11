@@ -276,7 +276,12 @@ public class API {
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 	}
 	
-	
+	/**
+     * Convert a result set into a JSON Array
+     * @param resultSet
+     * @return a JSONArray
+     * @throws Exception
+     */
 	public static JSONArray convertToJSON(ResultSet resultSet)
             throws Exception {
         JSONArray jsonArray = new JSONArray();
@@ -284,11 +289,12 @@ public class API {
             int total_rows = resultSet.getMetaData().getColumnCount();
             JSONObject obj = new JSONObject();
             for (int i = 0; i < total_rows; i++) {
-            	if (resultSet.getMetaData().getColumnLabel(i + 1).equals("visitors")) {
-					String rsVisitor = resultSet.getString(i + 1);
-					JSONArray jsonArrayVisitor = new JSONArray(rsVisitor);
+            	/* If it is an array */
+            	if (resultSet.getString(i + 1).startsWith("[")) {
+					String rs = resultSet.getString(i + 1);
+					JSONArray rsJsonArray = new JSONArray(rs);
 					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
-	                        .toLowerCase(), jsonArrayVisitor);
+	                        .toLowerCase(), rsJsonArray);
 				}else{
                 obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
                         .toLowerCase(), resultSet.getObject(i + 1));
