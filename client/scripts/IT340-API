@@ -1,0 +1,82 @@
+POST http://jduban.rmorpheus.enseirb.fr/CNRS/rest/atelier/
+Ajouter un nouveau atelier
+data : 
+{
+title:String,
+lab:String,
+theme:String,
+location:String,
+type: String,
+duration:String,
+capacity:String,
+summary:String,
+anim:String,
+partners:String,
+content:String,
+visitors : [{id : Integer, name : String}],
+horaires : [{id : Integer, name : String}]
+}
+
+return : Boolean
+
+POST http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/update/
+Editer un atelier
+data : 
+{
+id:String,
+title:String,
+lab:String,
+theme:String,
+location:String,
+type: String,
+duration:String,
+capacity:String,
+summary:String,
+anim:String,
+partners:String,
+content:String,
+visitors : [{id : Integer, name : String}],
+horaires : [{id : Integer, name : String}]
+}
+
+return : Boolean
+
+GET http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/
+Lister tous les ateliers
+
+return :
+[{
+id:String,
+title:String,
+lab:String,
+theme:String,
+location:String,
+}]
+
+
+GET http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/{id}
+Demander un atelier
+
+return :
+{
+id:String,
+title:String,
+lab:String,
+theme:String,
+location:String,
+type: String,
+duration:String,
+capacity:String,
+summary:String,
+anim:String,
+partners:String,
+content:String,
+visitors : [{id : Integer, name : String}],
+horaires : [{id : Integer, name : String}]
+}
+
+
+DELETE http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/
+
+data : {id: Integer}
+return : Boolean
