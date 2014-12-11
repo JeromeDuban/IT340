@@ -145,7 +145,7 @@ public class API {
 					+ "`anim`=\""+ atelier.getAnim() +"\","
 					+ "`partners`=\""+ atelier.getPartners() +"\","
 					+ "`content`=\""+ atelier.getContent() +"\""
-					+ "WHERE `atelier_ID`="+atelier.getId();
+					+ "WHERE `id`="+atelier.getId();
 			
 			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
 			affectedRows = s.executeUpdate();
@@ -205,7 +205,7 @@ public class API {
 			
 			int id = json.getInt("id");
 			
-			String queryDelete = "DELETE FROM `ateliers` WHERE `atelier_ID`="+ Integer.toString(id);
+			String queryDelete = "DELETE FROM `ateliers` WHERE `id`="+ Integer.toString(id);
 			
 			System.out.println(queryDelete);
 			
