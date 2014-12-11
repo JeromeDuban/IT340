@@ -35,7 +35,7 @@ public class API {
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String newTodo(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+	public boolean create(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
 		
 		int affectedRows = 0;
 		
@@ -87,6 +87,9 @@ public class API {
 			s = (PreparedStatement) connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
 			affectedRows = s.executeUpdate();
 			
+			System.out.println(Integer.toString(affectedRows));
+			if (affectedRows == 1)
+				return true;	
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -94,9 +97,7 @@ public class API {
 			e.printStackTrace();
 		}
 			
-		System.out.println(Integer.toString(affectedRows));
-		
-		return input;
+		return false;
 	}
 	
 	/* Editer un atelier */
@@ -104,7 +105,7 @@ public class API {
 	@POST
 	@Path("/update/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String newUpdate(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+	public boolean update(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
 		
 		int affectedRows = 0;
 		
@@ -149,6 +150,9 @@ public class API {
 			
 			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
 			affectedRows = s.executeUpdate();
+			
+			if (affectedRows == 1)
+				return true;	
 						
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -157,13 +161,13 @@ public class API {
 		}
 		
 		System.out.println(Integer.toString(affectedRows));
-		return "OK";
+		return false;
 	}
 	
 	/* Lister les ateliers */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String test(@Context HttpServletResponse servletResponse){
+	public String getAll(@Context HttpServletResponse servletResponse){
 		
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
@@ -190,7 +194,7 @@ public class API {
 	/* Supprimer un atelier */
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String testDelete(String input, @Context HttpServletResponse servletResponse){
+	public boolean delete(String input, @Context HttpServletResponse servletResponse){
 		
 		int affectedRows = 0;
 		
@@ -210,10 +214,11 @@ public class API {
 			System.out.println(queryDelete);
 			
 			s = (PreparedStatement) connection.prepareStatement(queryDelete, Statement.RETURN_GENERATED_KEYS);
-			s.executeUpdate();
+			affectedRows = s.executeUpdate();
 			
 			System.out.println(Integer.toString(affectedRows));
-			return "OK";			
+			if (affectedRows == 1)
+				return true;			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -222,7 +227,7 @@ public class API {
 		}
 		
 		System.out.println(Integer.toString(affectedRows));
-		return "KO";
+		return false;
 	}
 		
 	@OPTIONS
