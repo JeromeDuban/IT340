@@ -16,7 +16,7 @@ public class Atelier {
 	public String anim;
 	public String partners;
 	public String content;
-	public ArrayList<Visitor> public_list;
+	public String visitorsList;
 	public ArrayList<?> horaires_list;
 	
 	
@@ -27,7 +27,7 @@ public class Atelier {
 	public Atelier(int id, String title, String lab, String theme,
 			String location, String type, String duration, String capacity,
 			String summary, String anim, String partners, String content,
-			ArrayList<Visitor> public_list, ArrayList<?> horaires_list) {
+			String visitorsList, ArrayList<?> horaires_list) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -41,7 +41,7 @@ public class Atelier {
 		this.anim = anim;
 		this.partners = partners;
 		this.content = content;
-		this.public_list = public_list;
+		this.visitorsList = visitorsList;
 		this.horaires_list = horaires_list;
 	}
 
@@ -140,13 +140,13 @@ public class Atelier {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	public ArrayList<Visitor> getPublic_list() {
-		return public_list;
+	
+	public String getVisitorsList() {
+		return visitorsList;
 	}
 
-	public void setPublic_list(ArrayList<Visitor> public_list) {
-		this.public_list = public_list;
+	public void setVisitorsList(String visitorsList) {
+		this.visitorsList = visitorsList;
 	}
 
 	public ArrayList<?> getHoraires_list() {
@@ -164,7 +164,7 @@ public class Atelier {
 				+ type + ", duration=" + duration + ", capacity=" + capacity
 				+ ", summary=" + summary + ", anim=" + anim + ", partners="
 				+ partners + ", content=" + content + ", public_list="
-				+ public_list + ", horaires_list=" + horaires_list + "]";
+				+ visitorsList + ", horaires_list=" + horaires_list + "]";
 	}
 	
 	

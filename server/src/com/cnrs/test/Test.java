@@ -1,6 +1,7 @@
 package com.cnrs.test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,47 +51,47 @@ public class Test {
 			atelier.setPartners(json.getString("partners"));
 			atelier.setContent(json.getString("content"));
 			
-			/* Type of visitors */
-//			JSONArray publicJArray = json.getJSONArray("visitors");
-//			ArrayList<Visitor> publicArrayList = new ArrayList<Visitor>();
-//			JSONObject jj;
-//			for (int i = 0; i < publicJArray.length(); i++) {
-//				Visitor visitor = new Visitor();
-//				jj = (JSONObject) publicJArray.get(i);
-//				
-//				visitor.setId(jj.getInt("id"));
-//				visitor.setName(jj.getString("name"));
-//				publicArrayList.add(visitor);
-////				System.out.println("publicArrayList = " + publicArrayList.toString());
-//			}
-//			atelier.setPublic_list(publicArrayList);
-			/* End Type of visitors */
-			
-			/* Type of horaires */
-//			JSONArray jArray = json.getJSONArray("horaires");
-//			ArrayList<TypeObj> arrayList = new ArrayList<TypeObj>();
-//			JSONObject jsonObj;
-//			for (int i = 0; i < jArray.length(); i++) {
-//				Horaire horaire = new Horaire();
-////				TypeObj typeObj = new TypeObj();
-//				jsonObj = (JSONObject) jArray.get(i);
-//				
-//				horaire.setId(jsonObj.getInt("id"));
-//				horaire.setName(jsonObj.getString("name"));
-//				arrayList.add(horaire);
-//				System.out.println("arrayList =" + arrayList.toString());
-//			}
-//			atelier.setHoraires_list(arrayList);
-//			System.out.println(atelier.getHoraires_list());
-//			
-			atelier.setPublic_list(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors")));
+			/* 
+			 * Type of visitors/horaires
+			 *  */			
+//			atelier.setPublic_list(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors")));
+//			System.out.println(atelier.getPublic_list());
 //			atelier.setHoraires_list(Horaire.jsonArrayToArrayListHoraire(json.getJSONArray("horaires")));
-			System.out.println(atelier.getPublic_list());
 //			System.out.println(atelier.getHoraires_list());
-			/* End Type of horaire */
+			
+			/* ArrayList<Visitor> to String a:b:c */
+			ArrayList<Visitor> arrayListVisitor = Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors"));
+			ArrayList<String> parms = new ArrayList<String>();
+			for (Iterator iterator = arrayListVisitor.iterator(); iterator
+					.hasNext();) {
+				Visitor visitor = (Visitor) iterator.next();
+				parms.add(String.valueOf( visitor.getId() ));
+			}
+			String sep = ""; StringBuffer b = new StringBuffer();
+			for (String p: parms) {
+			    b.append(sep);
+			    b.append(p);
+			    sep = ":";
+//			    System.out.println(b.toString());
+			}/* END ArrayList<Visitor> to String a:b:c */
+			
+			Visitor visitor = new Visitor();
+			String idArrayList = b.toString();
+			for (String value: idArrayList.split(":")){
+		         visitor.setId(Integer.parseInt(value));
+		         System.out.println("----For id = "+ visitor.getId());
+		         
+		         
+		      }
+			
+			/*
+			 *  End Type of visitors/horaires
+			 *   */
 			
 			
-			/* Test convertToJson */
+			/*
+			 *  Test convertToJson
+			 *   */
 //			String ts = "[{id : 1, name : \"Primaire\"}, {id : 8, name : \"Universite\"}]";
 //			JSONArray jjA = new JSONArray(ts);
 //			System.out.println("jjA= " +jjA);
@@ -113,7 +114,9 @@ public class Test {
 //			jo.put("visitors", jjA);
 //			System.out.println("after jo= " + jo);
 //			System.out.println(jo.getJSONArray("visitors"));
-			/* End Test convertToJson */
+			/*
+			 *  End Test convertToJson
+			 *   */
 			
 			
 //			String vis = publicJArray.toString();
@@ -137,7 +140,7 @@ public class Test {
 					+ "\""+atelier.getAnim()+"\","
 					+ "\""+atelier.getPartners()+"\","
 					+ "\""+atelier.getContent()+"\","
-					+ "\""+atelier.getPublic_list()+"\","
+					+ "\""+atelier.getVisitorsList()+"\","
 					+ "\"TBD\")";
 			
 			String queryUpdate = "UPDATE `ateliers` SET "
@@ -152,7 +155,7 @@ public class Test {
 					+ "`anim`=\""+ atelier.getAnim() +"\","
 					+ "`partners`=\""+ atelier.getPartners() +"\","
 					+ "`content`=\""+ atelier.getContent() +"\","
-					+ "`public_list`=\"" + atelier.getPublic_list() +"\","
+					+ "`public_list`=\"" + atelier.getVisitorsList() +"\","
 					+ "WHERE `atelier_ID`="+atelier.getId();
 			
 //			System.out.println(queryInsert);
@@ -197,4 +200,11 @@ public class Test {
 //	}
 //	atelier.setPublic_list(publicArrayList);
 	
+	/* If it is an array */
+	//            	if (resultSet.getString(i + 1).startsWith("[")) {
+	//					String rs = resultSet.getString(i + 1);
+	//					JSONArray rsJsonArray = new JSONArray(rs);
+	//					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
+	//	                        .toLowerCase(), rsJsonArray);
+	//				}
 }

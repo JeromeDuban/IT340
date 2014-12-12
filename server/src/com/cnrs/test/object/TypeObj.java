@@ -1,5 +1,7 @@
 package com.cnrs.test.object;
 
+import java.util.ArrayList;
+
 public class TypeObj {
 
 	public int id;
@@ -29,6 +31,17 @@ public class TypeObj {
 	@Override
 	public String toString() {
 		return "{id=" + id + ", name=" + name + "}";
+	}
+	
+	public static String joinId(ArrayList<String> parms){
+		StringBuffer b = new StringBuffer();
+		String sep = ""; 
+		for (String p: parms) {
+		    b.append(sep);
+		    b.append(p);
+		    sep = ":";
+		}
+		return b.toString();
 	}
 	
 }

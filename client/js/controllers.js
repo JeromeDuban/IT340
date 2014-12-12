@@ -12,7 +12,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			lab:"LaBRI",
 			theme:"Theme1",
 			location:"CNRS, TALENCE",
-			type: "type1",
+			type: "type9",
 			duration:"1h30",
 			capacity:"120",
 			summary:"Some stuff happening somewhere",
@@ -71,7 +71,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.updateData = function(){
 
     	var datum = {
-    		id:6,
+    		id:3,
     		title:"titre modifié",
     		lab:"LaBRI",
     		theme:"Theme1",
@@ -83,14 +83,14 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     		anim:"Marc Fgrijzd",
     		partners:"LaBRI",
     		content:"IT",
-    		visitors : [{id : 1, name : "Primaire"}, {id : 6, name : "Tale"}],
+    		visitors : [{id : 3, name : "Primaire"}, {id : 5, name : "Tale"}],
     		horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
 
     	}
 
     	$http({
     		method: 'POST',
-    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/update',
+    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers/update',
     		data: datum,
     	}).success(function(data){
     		console.log(data)
