@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -179,6 +180,34 @@ public class API {
 			
 			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers`", Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs = s.executeQuery();
+			
+			return convertToJSON(rs).toString();			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "ERROR";
+	}
+	
+	/* Demander un atelier */
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getAtelier(@PathParam("id") String id, @Context HttpServletResponse servletResponse){
+		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		servletResponse.setHeader("Access-Control-Max-Age", "3600");
+		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
+		
+		try {
+			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
+			
+			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers` WHERE `id`="+ id, Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = s.executeQuery();
+			
 			
 			return convertToJSON(rs).toString();			
 			
