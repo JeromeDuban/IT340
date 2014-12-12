@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cnrs.test.object.Atelier;
+import com.cnrs.test.object.Horaire;
 import com.cnrs.test.object.Visitor;
 import com.google.common.net.HttpHeaders;
 
@@ -67,7 +69,9 @@ public class API {
 
 			/* Set type of Public */
 			atelier.setVisitorsList(Visitor.getListId(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors"))));
-
+			/* Set type of Horaires */
+			atelier.setHorairesList(Horaire.getListId(Horaire.jsonArrayToArrayListHoraire(json.getJSONArray("horaires"))));
+			
 			String queryInsert = "INSERT INTO `ateliers`"
 					+ "(`title`, `lab`, `theme`, `location`, `type`,"
 					+ " `duration`, `capacity`, `summary`, `anim`, `partners`,"
@@ -85,7 +89,7 @@ public class API {
 					+ "\""+ atelier.getPartners()+"\","
 					+ "\""+ atelier.getContent()+"\","
 					+ "\""+atelier.getVisitorsList()+"\","
-					+ "\"TBD\")";
+					+ "\""+atelier.getHorairesList()+"\")";
 
 			s = (PreparedStatement) connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
 			affectedRows = s.executeUpdate();
@@ -137,6 +141,7 @@ public class API {
 			atelier.setPartners(json.getString("partners"));
 
 			atelier.setVisitorsList(Visitor.getListId(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors"))));
+			atelier.setHorairesList(Horaire.getListId(Horaire.jsonArrayToArrayListHoraire(json.getJSONArray("horaires"))));
 			
 			String queryUpdate = "UPDATE `ateliers` SET "
 					+ "`title`=\""+ atelier.getTitle() +"\","
@@ -150,7 +155,8 @@ public class API {
 					+ "`anim`=\""+ atelier.getAnim() +"\","
 					+ "`partners`=\""+ atelier.getPartners() +"\","
 					+ "`content`=\""+ atelier.getContent() +"\","
-					+ "`visitors`=\"" + atelier.getVisitorsList() +"\""  
+					+ "`visitors`=\"" + atelier.getVisitorsList() +"\","
+					+ "`horaires`=\"" + atelier.getHorairesList() +"\""
 					+ "WHERE `id`="+atelier.getId();
 
 			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
@@ -297,7 +303,11 @@ public class API {
 					JSONArray ja = Visitor.constructJsonArrayVisitor(resultSet.getString(i + 1));
 					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
 							.toLowerCase(), ja);
-
+				}
+				else if (resultSet.getMetaData().getColumnLabel(i + 1).equalsIgnoreCase("horaires")) {					
+					JSONArray ja = Horaire.constructJsonArrayHoraire(resultSet.getString(i + 1));
+					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
+							.toLowerCase(), ja);
 				}
 				else{
 					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)

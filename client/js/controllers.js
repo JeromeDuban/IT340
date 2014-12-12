@@ -20,7 +20,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			partners:"LaBRI",
 			content:"IT",
 			visitors : [{id : 2, name : "6ieme5ieme"}, {id : 7, name : "Prepa"}],
-			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+			horaires : [{id : 1, name : "Lundi matin"}, {id : 4, name : "Mardi après-midi"}]
 		}
 
 		/*$http({
@@ -71,7 +71,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.updateData = function(){
 
     	var datum = {
-    		id:3,
+    		id:7,
     		title:"titre modifié",
     		lab:"LaBRI",
     		theme:"Theme1",
@@ -83,8 +83,8 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     		anim:"Marc Fgrijzd",
     		partners:"LaBRI",
     		content:"IT",
-    		visitors : [{id : 3, name : "Primaire"}, {id : 5, name : "Tale"}],
-    		horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+    		visitors : [{id : 3, name : "Primaire"}, {id : 7, name : "Tale"}, {id : 8, name : "Tale"}],
+    		horaires : [{id : 6, name : "Lundi matin"}, {id : 7, name : "Mardi après-midi"}, {id : 9, name : "Mardi après-midi"}]
 
     	}
 

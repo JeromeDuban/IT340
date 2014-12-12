@@ -42,7 +42,7 @@ public class Visitor extends TypeObj {
 		
 		ArrayList<String> parms = new ArrayList<String>();
 		
-		for (Iterator iterator = arrayListVisitor.iterator(); iterator
+		for (Iterator<Visitor> iterator = arrayListVisitor.iterator(); iterator
 				.hasNext();) {
 			Visitor visitor = (Visitor) iterator.next();
 			parms.add(String.valueOf( visitor.getId() ));
