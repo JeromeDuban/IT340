@@ -7,8 +7,8 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 	$scope.postData = function(){
 
 		var datum = {
-			id:4,
-			title:"titre4",
+			id:9,
+			title:"titre9",
 			lab:"LaBRI",
 			theme:"Theme1",
 			location:"CNRS, TALENCE",
@@ -71,7 +71,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.updateData = function(){
 
     	var datum = {
-    		id:2,
+    		id:6,
     		title:"titre modifié",
     		lab:"LaBRI",
     		theme:"Theme1",

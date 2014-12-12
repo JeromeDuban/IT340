@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -68,18 +66,7 @@ public class API {
 			atelier.setPartners(json.getString("partners"));
 
 			/* Set type of Public */
-			JSONArray publicJArray = json.getJSONArray("visitors");
-			ArrayList<Visitor> publicArrayList = new ArrayList<Visitor>();
-			JSONObject jsonObject;
-			for (int i = 0; i < publicJArray.length(); i++) {
-				Visitor visitor = new Visitor();
-				jsonObject = (JSONObject) publicJArray.get(i);
-
-				visitor.setId(jsonObject.getInt("id"));
-				visitor.setName(jsonObject.getString("name"));
-				publicArrayList.add(visitor);
-			}
-			atelier.setPublic_list(publicArrayList);
+			atelier.setPublic_list(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors")));
 			
 			String queryInsert = "INSERT INTO `ateliers`"
 					+ "(`title`, `lab`, `theme`, `location`, `type`,"
@@ -149,19 +136,7 @@ public class API {
 			atelier.setAnim(json.getString("anim"));
 			atelier.setPartners(json.getString("partners"));
 			
-			/* Set type of Public */
-			JSONArray publicJArray = json.getJSONArray("visitors");
-			ArrayList<Visitor> publicArrayList = new ArrayList<Visitor>();
-			JSONObject jsonObject;
-			for (int i = 0; i < publicJArray.length(); i++) {
-				Visitor visitor = new Visitor();
-				jsonObject = (JSONObject) publicJArray.get(i);
-
-				visitor.setId(jsonObject.getInt("id"));
-				visitor.setName(jsonObject.getString("name"));
-				publicArrayList.add(visitor);
-			}
-			atelier.setPublic_list(publicArrayList);
+			atelier.setPublic_list(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors")));
 			
 			String queryUpdate = "UPDATE `ateliers` SET "
 					+ "`title`=\""+ atelier.getTitle() +"\","

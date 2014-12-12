@@ -1,30 +1,32 @@
 package com.cnrs.test.object;
 
-public class Visitor {
-	
-	public int id;
-	public String name;
-	
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Visitor extends TypeObj {
+
 	public Visitor() {
 		super();
 	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
-	@Override
-	public String toString() {
-		return "{id : " + id + ", name : " + name + "}";
+	public static ArrayList<Visitor> jsonArrayToArrayListVisitor(JSONArray jsonArray) throws JSONException{
+
+		ArrayList<Visitor> arrayList = new ArrayList<Visitor>();
+		JSONObject jsonObj;
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			Visitor visitor = new Visitor();
+			jsonObj = (JSONObject) jsonArray.get(i);
+
+			visitor.setId(jsonObj.getInt("id"));
+			visitor.setName(jsonObj.getString("name"));
+			arrayList.add(visitor);
+		}
+
+		return arrayList;
 	}
 
 }
