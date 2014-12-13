@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 public class Init {
 
 	
-
 	@GET
 	@Path("/init/")												// initialisation de la base de donnÃ©es
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -28,7 +27,7 @@ public class Init {
 				
 		String queryAtelier="CREATE TABLE IF NOT EXISTS ateliers"
 				+ "("
-				+ "atelier_ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,"
+				+ "id int NOT NULL PRIMARY KEY AUTO_INCREMENT,"
 				+ "title varchar(1000),"
 				+ "lab varchar(1000),"
 				+ "theme varchar(1000),"
@@ -40,8 +39,8 @@ public class Init {
 				+ "anim varchar(1000),"
 				+ "partners varchar(1000),"
 				+ "content varchar(1000),"
-				+ "public_list varchar(1000),"
-				+ "horaires_list varchar(1000)"
+				+ "visitors varchar(1000),"
+				+ "horaires varchar(1000)"
 				+ ");";
 		
 
@@ -80,7 +79,7 @@ public class Init {
 				+ "(5, 'Mercredi matin'),"
 				+ "(6, 'Mercredi après-midi'),"
 				+ "(7, 'Jeudi matin'),"
-				+ "(8, 'Jeudi après-midi')"
+				+ "(8, 'Jeudi après-midi'),"
 				+ "(9, 'Vendredi matin'),"
 				+ "(10, 'Vendredi après-midi')"
 				+ ";";

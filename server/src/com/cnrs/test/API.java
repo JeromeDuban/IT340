@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -22,32 +23,38 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cnrs.test.object.Atelier;
+import com.cnrs.test.object.Horaire;
+import com.cnrs.test.object.Visitor;
 import com.google.common.net.HttpHeaders;
 
 
 @Path("/ateliers/")
 public class API {
 
-	Connection connection = null;
-	PreparedStatement s = null;
-	
+	public static Connection connection = null;
+	public static PreparedStatement s = null;
+
 	/* ajouter un atelier */
+	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String newTodo(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+	public boolean create(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+		
+		int affectedRows = 0;
+
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
-		
+
 		System.out.println("CREATE > Input :" + input);
-		
+
 		Atelier atelier= new Atelier();
-		
+
 		try {
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			JSONObject json = new JSONObject(input);
-			
+
 			atelier.setId(json.getInt("id"));
 			atelier.setTitle(json.getString("title"));
 			atelier.setLab(json.getString("lab"));
@@ -60,11 +67,16 @@ public class API {
 			atelier.setAnim(json.getString("anim"));
 			atelier.setContent(json.getString("content"));
 			atelier.setPartners(json.getString("partners"));
+
+			/* Set type of Public */
+			atelier.setVisitorsList(Visitor.getListId(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors"))));
+			/* Set type of Horaires */
+			atelier.setHorairesList(Horaire.getListId(Horaire.jsonArrayToArrayListHoraire(json.getJSONArray("horaires"))));
 			
 			String queryInsert = "INSERT INTO `ateliers`"
 					+ "(`title`, `lab`, `theme`, `location`, `type`,"
 					+ " `duration`, `capacity`, `summary`, `anim`, `partners`,"
-					+ " `content`, `public_list`, `horaires_list`) VALUES"
+					+ " `content`, `visitors`, `horaires`) VALUES"
 					+ " ("/*+ atelier.getId() +","*/
 					+ "\""+ atelier.getTitle() +"\","
 					+ "\""+ atelier.getLab() +"\","
@@ -77,41 +89,47 @@ public class API {
 					+ "\""+ atelier.getAnim()+"\","
 					+ "\""+ atelier.getPartners()+"\","
 					+ "\""+ atelier.getContent()+"\","
-					+ "\"TBD\","
-					+ "\"TBD\")";
-			
+					+ "\""+atelier.getVisitorsList()+"\","
+					+ "\""+atelier.getHorairesList()+"\")";
+
 			s = (PreparedStatement) connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
-			s.executeUpdate();
+			affectedRows = s.executeUpdate();
 			
+			System.out.println(Integer.toString(affectedRows));
+			if (affectedRows == 1)
+				return true;	
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			
-		
-		return input;
+
+		return false;
 	}
-	
+
 	/* Editer un atelier */
+	
 	@POST
 	@Path("/update/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String newUpdate(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+	public boolean update(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+
+		int affectedRows = 0;
+		
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
-		
+
 		System.out.println("UPDATE > Input :" + input);
-		
+
 		Atelier atelier= new Atelier();
-		
+
 		try {
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			JSONObject json = new JSONObject(input);
-			
+
 			atelier.setId(json.getInt("id"));
 			atelier.setTitle(json.getString("title"));
 			atelier.setLab(json.getString("lab"));
@@ -123,6 +141,9 @@ public class API {
 			atelier.setSummary(json.getString("summary"));
 			atelier.setAnim(json.getString("anim"));
 			atelier.setPartners(json.getString("partners"));
+
+			atelier.setVisitorsList(Visitor.getListId(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors"))));
+			atelier.setHorairesList(Horaire.getListId(Horaire.jsonArrayToArrayListHoraire(json.getJSONArray("horaires"))));
 			
 			String queryUpdate = "UPDATE `ateliers` SET "
 					+ "`title`=\""+ atelier.getTitle() +"\","
@@ -135,37 +156,74 @@ public class API {
 					+ "`summary`=\""+ atelier.getSummary() +"\","
 					+ "`anim`=\""+ atelier.getAnim() +"\","
 					+ "`partners`=\""+ atelier.getPartners() +"\","
-					+ "`content`=\""+ atelier.getContent() +"\""
-					+ "WHERE `atelier_ID`="+atelier.getId();
-			
+					+ "`content`=\""+ atelier.getContent() +"\","
+					+ "`visitors`=\"" + atelier.getVisitorsList() +"\","
+					+ "`horaires`=\"" + atelier.getHorairesList() +"\""
+					+ "WHERE `id`="+atelier.getId();
+
 			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
-			s.executeUpdate();
-						
+			affectedRows = s.executeUpdate();
+
+			if (affectedRows == 1)
+				return true;
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "OK";
+
+		System.out.println(Integer.toString(affectedRows));
+		return false;
 	}
-	
+
 	/* Lister les ateliers */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String test(@Context HttpServletResponse servletResponse){
+	public String getAll(@Context HttpServletResponse servletResponse){
+
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
-		
+
 		try {
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
-			
+
 			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers`", Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs = s.executeQuery();
-			
+
+
 			return convertToJSON(rs).toString();			
-			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "ERROR";
+	}
+
+	/* Demander un atelier */
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getAtelier(@PathParam("id") String id, @Context HttpServletResponse servletResponse){
+		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		servletResponse.setHeader("Access-Control-Max-Age", "3600");
+		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
+
+		try {
+			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
+
+			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers` WHERE `id`="+ id, Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = s.executeQuery();
+
+
+			return convertToJSON(rs).toString();			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -178,26 +236,31 @@ public class API {
 	/* Supprimer un atelier */
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String testDelete(String input, @Context HttpServletResponse servletResponse){
+	public boolean delete(String input, @Context HttpServletResponse servletResponse){
+		
+		int affectedRows = 0;
+		
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
-		
+
 		try {
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			JSONObject json = new JSONObject(input);
-			
+
 			int id = json.getInt("id");
-			
-			String queryDelete = "DELETE FROM `ateliers` WHERE `atelier_ID`="+ Integer.toString(id);
-			
+
+			String queryDelete = "DELETE FROM `ateliers` WHERE `id`="+ Integer.toString(id);
+
 			System.out.println(queryDelete);
-			
+
 			s = (PreparedStatement) connection.prepareStatement(queryDelete, Statement.RETURN_GENERATED_KEYS);
-			s.executeUpdate();
+			affectedRows = s.executeUpdate();
 			
-			return "OK";			
+			System.out.println(Integer.toString(affectedRows));
+			if (affectedRows == 1)
+				return true;			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -205,9 +268,9 @@ public class API {
 			e.printStackTrace();
 		}
 		
-		return "KO";
+		return false;
 	}
-		
+
 	@OPTIONS
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public void option(@Context HttpServletResponse servletResponse){
@@ -216,7 +279,7 @@ public class API {
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 	}
-	
+
 	@OPTIONS
 	@Path("/update/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -226,21 +289,38 @@ public class API {
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 	}
-	
-	
+
+	/**
+	 * Convert a result set into a JSON Array
+	 * @param resultSet
+	 * @return a JSONArray
+	 * @throws Exception
+	 */
 	public static JSONArray convertToJSON(ResultSet resultSet)
-            throws Exception {
-        JSONArray jsonArray = new JSONArray();
-        while (resultSet.next()) {
-            int total_rows = resultSet.getMetaData().getColumnCount();
-            JSONObject obj = new JSONObject();
-            for (int i = 0; i < total_rows; i++) {
-                obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
-                        .toLowerCase(), resultSet.getObject(i + 1));
-            }
-            jsonArray.put(obj);
-        }
-        return jsonArray;
-    }
+			throws Exception {
+		JSONArray jsonArray = new JSONArray();
+		while (resultSet.next()) {
+			int total_rows = resultSet.getMetaData().getColumnCount();
+			JSONObject obj = new JSONObject();
+			for (int i = 0; i < total_rows; i++) {
+				if (resultSet.getMetaData().getColumnLabel(i + 1).equalsIgnoreCase("visitors")) {					
+					JSONArray ja = Visitor.constructJsonArrayVisitor(resultSet.getString(i + 1));
+					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
+							.toLowerCase(), ja);
+				}
+				else if (resultSet.getMetaData().getColumnLabel(i + 1).equalsIgnoreCase("horaires")) {					
+					JSONArray ja = Horaire.constructJsonArrayHoraire(resultSet.getString(i + 1));
+					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
+							.toLowerCase(), ja);
+				}
+				else{
+					obj.put(resultSet.getMetaData().getColumnLabel(i + 1)
+							.toLowerCase(), resultSet.getObject(i + 1));
+				}
+			}
+			jsonArray.put(obj);
+		}
+		return jsonArray;
+	}
 
 }

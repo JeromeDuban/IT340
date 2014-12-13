@@ -47,7 +47,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			lab:"LaBRI",
 			theme:"Theme1",
 			location:"CNRS, TALENCE",
-			type: "type1",
+			type: "type9",
 			duration:"1h30",
 			capacity:"120",
 			summary:"Some stuff happening somewhere",
@@ -59,12 +59,20 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 		}
 
 		$http({
+			method: 'POST',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+			data: datum,
+		}).success(function(data){
+			console.log(data)
+		});
+
+		/*$http({
 			method: 'GET',
 			url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers',
 			data: datum,
 		}).success(function(data){
 			console.log(data)
-		});
+		});*/
 
 
 	}
@@ -81,7 +89,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.deleteData = function(){
 
     	var datum = {
-    		id:1
+    		id:2
     	}
 
     	$http({
@@ -98,7 +106,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.updateData = function(){
 
     	var datum = {
-    		id:1,
+    		id:7,
     		title:"titre modifié",
     		lab:"LaBRI",
     		theme:"Theme1",
@@ -110,8 +118,8 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     		anim:"Marc Fgrijzd",
     		partners:"LaBRI",
     		content:"IT",
-    		visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
-    		horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+    		visitors : [{id : 3, name : "4ieme3ieme"}, {id : 7, name : "Prepa"}, {id : 8, name : "Universite"}],
+    		horaires : [{id : 6, name : "Mercredi après-midi"}, {id : 7, name : "Jeudi matin"}, {id : 9, name : "Vendredi matin"}]
 
     	}
 
