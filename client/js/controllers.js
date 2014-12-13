@@ -1,5 +1,40 @@
 var atelierControllers = angular.module('atelierControllers', []);
 
+atelierControllers.controller('apiCtrl', function ($scope, $http) {
+
+	$scope.lefties = [];
+	$scope.righties = [];
+
+	$http({
+			method: 'GET',
+			url: 'scripts/api.json'
+		}).success(function(data){
+			data.forEach(function(d, i){
+				d.class = getClassByMethod(d.method);
+				if (!(i % 2)) $scope.lefties.push(d);
+					else $scope.righties.push(d);
+			})
+		});
+
+		function getClassByMethod(method){
+			switch(method){
+				case 'POST':
+				return 'primary';
+				break;
+				case 'GET' :
+				return 'success';
+				break;
+				case 'DELETE':
+				return 'danger';
+				break;
+				default:
+				return 'default';
+				break;
+			}
+		}
+
+});
+
 atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
 	// POST DATA 
@@ -7,7 +42,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 	$scope.postData = function(){
 
 		var datum = {
-			id:2,
+			id:15,
 			title:"titre1",
 			lab:"LaBRI",
 			theme:"Theme1",
@@ -19,21 +54,13 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 			anim:"Marc Fgrijzd",
 			partners:"LaBRI",
 			content:"IT",
-			visitors : [{name : 'Lycée', checked: true}, {name : 'Collège', checked: false}],
-			horaires : [{name:'Mercredi matin', checked: true}, {name : 'Jeudi Après-midi', checked: false}]
+			visitors : [{name : 'Lycée', id : 1}, {name : 'Collège', id : 2}],
+			horaires : [{name : 'Lycée', id : 1}, {name : 'Collège', id : 2}],
 		}
-
-		/*$http({
-			method: 'POST',
-			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
-			data: datum,
-		}).success(function(data){
-			console.log(data)
-		});*/
 
 		$http({
 			method: 'GET',
-			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers',
 			data: datum,
 		}).success(function(data){
 			console.log(data)

@@ -14,6 +14,13 @@
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+
+    <script type="text/javascript" src="js/lib/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-resource.min.js"></script>
+
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+
     <!-- Custom CSS -->
     <style>
         body {
@@ -60,114 +67,46 @@
         </nav>
 
         <!-- Page Content -->
-        <div class="container">
+        <div class="container" ng-app="atelierControllers">
 
-            <div class="row">
+            <div class="row" ng-controller="apiCtrl">
                 <div class="col-sm-6">
-                    <div class="panel panel-success">
+                    <div class="panel panel-{{left.class}}" ng-repeat="left in lefties">
                         <div class="panel-heading">
-                            <h3 class="panel-title">GET<strong class="pull-right">../cnrs/ateliers</strong></h3>
+                            <h3 class="panel-title">{{left.method}}<strong class="pull-right">{{left.link}}</strong></h3>
                         </div>
                         <div class="panel-body">
                             <div class="well">
-                                <p>Cette requête sert à ...</p>
+                                <p>{{left.description}}</p>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Request</th>
-                                            <th>Response</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Hello</td>
-                                            <td>Yoko</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">POST<strong class="pull-right">../cnrs/ateliers</strong></h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="well">
-                                <p>Cette requête sert à ...</p>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Request</th>
-                                            <th>Response</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Hello</td>
-                                            <td>Yoko</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <p>Request</p>
+                           <code class="language-js" data-lang="js">
+                                {{left.data}}
+                            </code>
+                            <p>Response</p>
+                           <code class="language-js" data-lang="js">
+                                {{left.return}}
+                            </code>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="panel panel-danger">
+                    <div class="panel panel-{{right.class}}" ng-repeat="right in righties">
                         <div class="panel-heading">
-                            <h3 class="panel-title">DELETE<strong class="pull-right">../cnrs/ateliers/{id}</strong></h3>
+                            <h3 class="panel-title">{{right.method}}<strong class="pull-right">{{right.link}}</strong></h3>
                         </div>
                         <div class="panel-body">
                             <div class="well">
-                                <p>Cette requête sert à ...</p>
+                                <p>{{right.description}}</p>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Request</th>
-                                            <th>Response</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Hello</td>
-                                            <td>Yoko</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">POST<strong class="pull-right">../cnrs/ateliers/{id}</strong></h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="well">
-                                <p>Cette requête sert à ...</p>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Request</th>
-                                            <th>Response</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Hello</td>
-                                            <td>Yoko</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <p>Request</p>
+                           <code class="language-js" data-lang="js">
+                                {{right.data}}
+                            </code>
+                            <p>Response</p>
+                           <code class="language-js" data-lang="js">
+                                {{right.return}}
+                            </code>
                         </div>
                     </div>
                 </div>
