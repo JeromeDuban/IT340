@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 public class Init {
 
 	
-
 	@GET
 	@Path("/init/")												// initialisation de la base de donn√©es
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -74,15 +73,15 @@ public class Init {
 		String queryAddHoraires = "INSERT INTO `horaires_list`"
 				+ "(`item_ID`, `horaire`) VALUES"
 				+ "(1, 'Lundi matin'),"
-				+ "(2, 'Lundi apr√®s-midi'),"
+				+ "(2, 'Lundi aprËs-midi'),"
 				+ "(3, 'Mardi matin'),"
-				+ "(4, 'Mardi apr√®s-midi'),"
+				+ "(4, 'Mardi aprËs-midi'),"
 				+ "(5, 'Mercredi matin'),"
-				+ "(6, 'Mercredi apr√®s-midi'),"
+				+ "(6, 'Mercredi aprËs-midi'),"
 				+ "(7, 'Jeudi matin'),"
-				+ "(8, 'Jeudi apr√®s-midi'),"
+				+ "(8, 'Jeudi aprËs-midi'),"
 				+ "(9, 'Vendredi matin'),"
-				+ "(10, 'Vendredi apr√®s-midi')"
+				+ "(10, 'Vendredi aprËs-midi')"
 				+ ";";
 		
 		System.out.println(queryAddPublic);

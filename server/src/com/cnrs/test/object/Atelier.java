@@ -14,6 +14,8 @@ public class Atelier {
 	public String anim;
 	public String partners;
 	public String content;
+	public String visitorsList;
+	public String horairesList;
 	
 	
 	public Atelier() {
@@ -22,7 +24,8 @@ public class Atelier {
 	
 	public Atelier(int id, String title, String lab, String theme,
 			String location, String type, String duration, String capacity,
-			String summary, String anim, String partners, String content) {
+			String summary, String anim, String partners, String content,
+			String visitorsList, String horairesList) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -36,6 +39,8 @@ public class Atelier {
 		this.anim = anim;
 		this.partners = partners;
 		this.content = content;
+		this.visitorsList = visitorsList;
+		this.horairesList = horairesList;
 	}
 
 	public int getId() {
@@ -133,6 +138,22 @@ public class Atelier {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public String getVisitorsList() {
+		return visitorsList;
+	}
+
+	public void setVisitorsList(String visitorsList) {
+		this.visitorsList = visitorsList;
+	}
+	
+	public String getHorairesList() {
+		return horairesList;
+	}
+
+	public void setHorairesList(String horairesList) {
+		this.horairesList = horairesList;
+	}
 
 	@Override
 	public String toString() {
@@ -140,7 +161,8 @@ public class Atelier {
 				+ ", theme=" + theme + ", location=" + location + ", type="
 				+ type + ", duration=" + duration + ", capacity=" + capacity
 				+ ", summary=" + summary + ", anim=" + anim + ", partners="
-				+ partners + ", content=" + content + "]";
+				+ partners + ", content=" + content + ", public_list="
+				+ visitorsList + ", horaires_list=" + horairesList + "]";
 	}
 	
 	
