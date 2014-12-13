@@ -33,7 +33,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 
 		$http({
 			method: 'GET',
-			url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
 			data: datum,
 		}).success(function(data){
 			console.log(data)
@@ -83,14 +83,14 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     		anim:"Marc Fgrijzd",
     		partners:"LaBRI",
     		content:"IT",
-    		visitors : [{id : 3, name : "Primaire"}, {id : 7, name : "Tale"}, {id : 8, name : "Tale"}],
-    		horaires : [{id : 6, name : "Lundi matin"}, {id : 7, name : "Mardi après-midi"}, {id : 9, name : "Mardi après-midi"}]
+    		visitors : [{id : 3, name : "4ieme3ieme"}, {id : 7, name : "Prepa"}, {id : 8, name : "Universite"}],
+    		horaires : [{id : 6, name : "Mercredi après-midi"}, {id : 7, name : "Jeudi matin"}, {id : 9, name : "Vendredi matin"}]
 
     	}
 
     	$http({
     		method: 'POST',
-    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRSTest/rest/ateliers/update',
+    		url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers/update',
     		data: datum,
     	}).success(function(data){
     		console.log(data)
