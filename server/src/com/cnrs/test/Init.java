@@ -60,7 +60,7 @@ public class Init {
 		
 		String queryAddPublic = "INSERT INTO `public_list`"
 				+ "(`item_ID`, `public`) VALUES"
-				+ "(1,'Primaire'),"
+				+ "(1, 'Primaire'),"
 				+ "(2, '6ieme5ieme'),"
 				+ "(3, '4ieme3ieme'),"
 				+ "(4, '2nde'),"
@@ -73,15 +73,15 @@ public class Init {
 		String queryAddHoraires = "INSERT INTO `horaires_list`"
 				+ "(`item_ID`, `horaire`) VALUES"
 				+ "(1, 'Lundi matin'),"
-				+ "(2, 'Lundi après-midi'),"
+				+ "(2, 'Lundi aprï¿½s-midi'),"
 				+ "(3, 'Mardi matin'),"
-				+ "(4, 'Mardi après-midi'),"
+				+ "(4, 'Mardi aprï¿½s-midi'),"
 				+ "(5, 'Mercredi matin'),"
-				+ "(6, 'Mercredi après-midi'),"
+				+ "(6, 'Mercredi aprï¿½s-midi'),"
 				+ "(7, 'Jeudi matin'),"
-				+ "(8, 'Jeudi après-midi'),"
+				+ "(8, 'Jeudi aprï¿½s-midi'),"
 				+ "(9, 'Vendredi matin'),"
-				+ "(10, 'Vendredi après-midi')"
+				+ "(10, 'Vendredi aprï¿½s-midi')"
 				+ ";";
 		
 		System.out.println(queryAddPublic);
