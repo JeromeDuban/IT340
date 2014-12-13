@@ -61,7 +61,7 @@ public class Visitor extends TypeObj {
 			try {
 				API.connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 
-				API.s = (PreparedStatement) API.connection.prepareStatement("SELECT public FROM `public_list` WHERE `item_ID`="+ Integer.parseInt(value),
+				API.s = (PreparedStatement) API.connection.prepareStatement("SELECT visitors FROM `visitors_list` WHERE `id`="+ Integer.parseInt(value),
 						Statement.RETURN_GENERATED_KEYS);
 				ResultSet rs = API.s.executeQuery();
 				if(rs.first()){

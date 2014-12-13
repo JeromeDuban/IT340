@@ -44,22 +44,22 @@ public class Init {
 				+ ");";
 		
 
-		String queryPublic="CREATE TABLE IF NOT EXISTS public_list"
+		String queryPublic="CREATE TABLE IF NOT EXISTS visitors_list"
 				+ "("
-				+ "item_ID int NOT NULL,"
-				+ "public varchar(1000) NOT NULL,"
-				+ "PRIMARY KEY (item_ID)"
+				+ "id int NOT NULL,"
+				+ "name varchar(1000) NOT NULL,"
+				+ "PRIMARY KEY (id)"
 				+ ");";
 		
 		String queryHoraires ="CREATE TABLE IF NOT EXISTS horaires_list"
 				+ "("
-				+ "item_ID int NOT NULL,"
-				+ "horaire varchar(1000) NOT NULL,"
-				+ "PRIMARY KEY (item_ID)"
+				+ "id int NOT NULL,"
+				+ "name varchar(1000) NOT NULL,"
+				+ "PRIMARY KEY (id)"
 				+ ");";
 		
-		String queryAddPublic = "INSERT INTO `public_list`"
-				+ "(`item_ID`, `public`) VALUES"
+		String queryAddPublic = "INSERT INTO visitors_list"
+				+ "(`id`, `name`) VALUES"
 				+ "(1, 'Primaire'),"
 				+ "(2, '6ieme5ieme'),"
 				+ "(3, '4ieme3ieme'),"
@@ -70,18 +70,18 @@ public class Init {
 				+ "(8, 'Universite')"
 				+ ";";
 		
-		String queryAddHoraires = "INSERT INTO `horaires_list`"
-				+ "(`item_ID`, `horaire`) VALUES"
+		String queryAddHoraires = "INSERT INTO horaires_list"
+				+ "(id, name) VALUES"
 				+ "(1, 'Lundi matin'),"
-				+ "(2, 'Lundi apr�s-midi'),"
+				+ "(2, 'Lundi apres-midi'),"
 				+ "(3, 'Mardi matin'),"
-				+ "(4, 'Mardi apr�s-midi'),"
+				+ "(4, 'Mardi apres-midi'),"
 				+ "(5, 'Mercredi matin'),"
-				+ "(6, 'Mercredi apr�s-midi'),"
+				+ "(6, 'Mercredi apres-midi'),"
 				+ "(7, 'Jeudi matin'),"
-				+ "(8, 'Jeudi apr�s-midi'),"
+				+ "(8, 'Jeudi apres-midi'),"
 				+ "(9, 'Vendredi matin'),"
-				+ "(10, 'Vendredi apr�s-midi')"
+				+ "(10, 'Vendredi apres-midi')"
 				+ ";";
 		
 		System.out.println(queryAddPublic);

@@ -233,6 +233,44 @@ public class API {
 		return "ERROR";
 	}
 	
+	/*  Demander liste des visiteurs et crénaux possibles  */
+	@GET
+	@Path("/listVisitorsHoraires/")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getListVisitorsHoraires(@Context HttpServletResponse servletResponse){
+		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		servletResponse.setHeader("Access-Control-Max-Age", "3600");
+		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
+
+		try {
+			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
+
+			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM visitors_list", Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = s.executeQuery();
+			String visitorsList = convertToJSON(rs).toString();
+			JSONArray visitorsArray = new JSONArray(visitorsList);
+			
+			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM horaires_list", Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs1 = s.executeQuery();
+			String horairesList = convertToJSON(rs1).toString();
+			JSONArray horairesArray = new JSONArray(horairesList);
+			
+			JSONObject json = new JSONObject();
+			json.put("visitors", visitorsArray);
+			json.put("horaires", horairesArray);
+			
+			return json.toString();			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "ERROR";
+	}
+	
 	/* Supprimer un atelier */
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
