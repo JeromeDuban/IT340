@@ -15,8 +15,8 @@ atelierControllers.controller('apiCtrl', function ($scope, $http) {
 			if (!(i % 2)) $scope.lefties.push(d);
 			else $scope.righties.push(d);
 		})
+		testSet($scope.lefties)
 	});
-
 	function getClassByMethod(method){
 		switch(method){
 			case 'POST':
@@ -37,32 +37,34 @@ atelierControllers.controller('apiCtrl', function ($scope, $http) {
 });
 
 atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
-    
 
-    $http({
-    	method: 'GET',
-    	url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
-    }).success(function(data){
-    	if (typeof(data) != 'string') $scope.ateliers = data;
-    })
 
-    $scope.edit = function(val){
-    	location.href = location.href.slice(0, location.href.lastIndexOf('/')) + '/' + 'ateliers.html' + '?id=' + val;		
-    }
+	$http({
+		method: 'GET',
+		url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+	}).success(function(data){
+		if (typeof(data) != 'string') $scope.ateliers = data;
+	})
 
-    $scope.remove = function(val){
+	$scope.edit = function(val){
+		location.href = location.href.slice(0, location.href.lastIndexOf('/')) + '/' + 'ateliers.html' + '?id=' + val;		
+	}
 
-    	$http({
-    	method: 'DELETE',
-    	url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
-    	data : {id : val}
-    }).success(function(data){
-    	console.log(data)
-    	$scope.ateliers.forEach(function(d){
-    		if (d.id == val) $scope.ateliers.splice($scope.ateliers.indexOf(d));
-    	})
-    })
-    }
+	$scope.remove = function(val){
+
+		$http({
+			method: 'DELETE',
+			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
+			data : {id : val}
+		}).success(function(data){
+			console.log(data)
+			$scope.ateliers.forEach(function(d){
+				if (d.id == val) $scope.ateliers.splice($scope.ateliers.indexOf(d), 1);
+			})
+		})
+
+
+	}
 
 
 })
@@ -144,15 +146,4 @@ function filterCheckboxs(atelier, allHoraires, allVisitors){
 	return atelier;
 }
 
-function isFilled(atelier, numberOfFields){
-	var hasAllKeys = Object.keys(atelier).length == numberOfFields;
-	var allKeysFilled = true;
-
-	if (hasAllKeys){
-		Object.keys(atelier).forEach(function(d){
-			allKeysFilled = atelier[d].length > 0;
-		})
-	}
-	return hasAllKeys ? allKeysFilled : hasAllKeys;
-}
 
