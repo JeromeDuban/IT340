@@ -61,21 +61,35 @@ public class Horaire extends TypeObj{
 			Horaire horaire = new Horaire();
 			horaire.setId(Integer.parseInt(value));
 			try {
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				API.connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 
-				API.s = (PreparedStatement) API.connection.prepareStatement("SELECT name FROM `horaires_list` WHERE `id`="+ Integer.parseInt(value),
-						Statement.RETURN_GENERATED_KEYS);
-				ResultSet rs = API.s.executeQuery();
-				if(rs.first()){
-					horaire.setName(rs.getString(1));		
-				}else
-					horaire.setName("ERROR");
-
+				try{
+					API.s = (PreparedStatement) API.connection.prepareStatement("SELECT name FROM `horaires_list` WHERE `id`="+ Integer.parseInt(value),
+							Statement.RETURN_GENERATED_KEYS);
+					
+					ResultSet rs = API.s.executeQuery();
+					
+					if(rs.first()){
+						horaire.setName(rs.getString(1));		
+					}else
+						horaire.setName("ERROR");
+					
+					rs.close();
+				}finally {
+					if (API.s != null) API.s.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
-			}     
+			}finally{
+				try {
+					if (API.connection != null) API.connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}          
 			horaireArraylist.add(horaire);
 		}
 		JSONArray jsonArray = new JSONArray(horaireArraylist.toString());

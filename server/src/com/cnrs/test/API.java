@@ -35,11 +35,11 @@ public class API {
 	public static PreparedStatement s = null;
 
 	/* ajouter un atelier */
-	
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public boolean create(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
-		
+	public boolean create(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+
 		int affectedRows = 0;
 
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
@@ -52,10 +52,11 @@ public class API {
 		Atelier atelier= new Atelier();
 
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			JSONObject json = new JSONObject(input);
 
-			atelier.setId(json.getInt("id"));
+//			atelier.setId(json.getInt("id"));
 			atelier.setTitle(json.getString("title"));
 			atelier.setLab(json.getString("lab"));
 			atelier.setTheme(json.getString("theme"));
@@ -72,7 +73,7 @@ public class API {
 			atelier.setVisitorsList(Visitor.getListId(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors"))));
 			/* Set type of Horaires */
 			atelier.setHorairesList(Horaire.getListId(Horaire.jsonArrayToArrayListHoraire(json.getJSONArray("horaires"))));
-			
+
 			String queryInsert = "INSERT INTO `ateliers`"
 					+ "(`title`, `lab`, `theme`, `location`, `type`,"
 					+ " `duration`, `capacity`, `summary`, `anim`, `partners`,"
@@ -92,23 +93,26 @@ public class API {
 					+ "\""+atelier.getVisitorsList()+"\","
 					+ "\""+atelier.getHorairesList()+"\")";
 
-			s = (PreparedStatement) connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
-			affectedRows = s.executeUpdate();
-			
-			System.out.println(Integer.toString(affectedRows));
-			if (affectedRows == 1){
-				connection.close();
-				return true;
+			try{
+				s = (PreparedStatement) connection.prepareStatement(queryInsert, Statement.RETURN_GENERATED_KEYS);
+				affectedRows = s.executeUpdate();
+
+				System.out.println(Integer.toString(affectedRows));
+				if (affectedRows == 1){
+					s.close();
+					connection.close();
+					return true;
+				}
+			}finally{
+				if (s != null) s.close();
 			}
-					
-			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
 			try {
-				connection.close();
+				if (connection != null) connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -118,14 +122,14 @@ public class API {
 	}
 
 	/* Editer un atelier */
-	
+
 	@POST
 	@Path("/update/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public boolean update(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) {
+	public boolean update(String input, @Context HttpServletResponse servletResponse, @Context HttpHeaders httpHeaders) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 
 		int affectedRows = 0;
-		
+
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
@@ -136,10 +140,11 @@ public class API {
 		Atelier atelier= new Atelier();
 
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			JSONObject json = new JSONObject(input);
-			 
-//			atelier.setId(json.getInt("id"));
+
+			atelier.setId(json.getInt("id"));
 			atelier.setTitle(json.getString("title"));
 			atelier.setLab(json.getString("lab"));
 			atelier.setTheme(json.getString("theme"));
@@ -153,7 +158,7 @@ public class API {
 
 			atelier.setVisitorsList(Visitor.getListId(Visitor.jsonArrayToArrayListVisitor(json.getJSONArray("visitors"))));
 			atelier.setHorairesList(Horaire.getListId(Horaire.jsonArrayToArrayListHoraire(json.getJSONArray("horaires"))));
-			
+
 			String queryUpdate = "UPDATE `ateliers` SET "
 					+ "`title`=\""+ atelier.getTitle() +"\","
 					+ "`lab`=\""+ atelier.getLab() +"\","
@@ -169,15 +174,18 @@ public class API {
 					+ "`visitors`=\"" + atelier.getVisitorsList() +"\","
 					+ "`horaires`=\"" + atelier.getHorairesList() +"\""
 					+ "WHERE `id`="+atelier.getId();
+			try{
+				s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
+				affectedRows = s.executeUpdate();
 
-			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
-			affectedRows = s.executeUpdate();
-
-			if (affectedRows == 1){
-				connection.close();
-				return true;
+				if (affectedRows == 1){
+					s.close();
+					connection.close();
+					return true;
+				}
+			}finally{
+				if (s != null) s.close();
 			}
-				
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -198,7 +206,7 @@ public class API {
 	/* Lister les ateliers */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String getAll(@Context HttpServletResponse servletResponse){
+	public String getAll(@Context HttpServletResponse servletResponse) throws SQLException{
 
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
@@ -206,24 +214,28 @@ public class API {
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 
-			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers`", Statement.RETURN_GENERATED_KEYS);
-			ResultSet rs = s.executeQuery();
+			try{
+				s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers`", Statement.RETURN_GENERATED_KEYS);
 
-			connection.close();
-			return convertToJSON(rs).toString();			
+				ResultSet rs = s.executeQuery();
+				String rss = convertToJSON(rs).toString();
 
+				rs.close();
+				s.close();
+				connection.close();
+				return rss;
+			}finally{
+				if (s != null) s.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			if (connection != null) connection.close();
 		}
 
 		return "ERROR";
@@ -240,14 +252,21 @@ public class API {
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 
-			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers` WHERE `id`="+ id, Statement.RETURN_GENERATED_KEYS);
-			ResultSet rs = s.executeQuery();
+			try{
+				s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers` WHERE `id`="+ id, Statement.RETURN_GENERATED_KEYS);
+				ResultSet rs = s.executeQuery();
+				String rss = convertToJSON(rs).toString();
 
-			connection.close();
-			return convertToJSON(rs).toString();			
-
+				rs.close();
+				s.close();
+				connection.close();
+				return rss;			
+			}finally{
+				if (s != null) s.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -259,10 +278,10 @@ public class API {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return "ERROR";
 	}
-	
+
 	/*  Demander liste des visiteurs et cr�naux possibles  */
 	@GET
 	@Path("/listVisitorsHoraires/")
@@ -274,25 +293,32 @@ public class API {
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 
-			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM visitors_list", Statement.RETURN_GENERATED_KEYS);
-			ResultSet rs = s.executeQuery();
-			String visitorsList = convertToJSON(rs).toString();
-			JSONArray visitorsArray = new JSONArray(visitorsList);
-			
-			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM horaires_list", Statement.RETURN_GENERATED_KEYS);
-			ResultSet rs1 = s.executeQuery();
-			String horairesList = convertToJSON(rs1).toString();
-			JSONArray horairesArray = new JSONArray(horairesList);
-			
-			JSONObject json = new JSONObject();
-			json.put("visitors", visitorsArray);
-			json.put("horaires", horairesArray);
-			
-			connection.close();
-			return json.toString();			
+			try{
+				s = (PreparedStatement) connection.prepareStatement("SELECT * FROM visitors_list", Statement.RETURN_GENERATED_KEYS);
+				ResultSet rs = s.executeQuery();
+				String visitorsList = convertToJSON(rs).toString();
+				JSONArray visitorsArray = new JSONArray(visitorsList);
 
+				s = (PreparedStatement) connection.prepareStatement("SELECT * FROM horaires_list", Statement.RETURN_GENERATED_KEYS);
+				ResultSet rs1 = s.executeQuery();
+				String horairesList = convertToJSON(rs1).toString();
+				JSONArray horairesArray = new JSONArray(horairesList);
+
+				JSONObject json = new JSONObject();
+				json.put("visitors", visitorsArray);
+				json.put("horaires", horairesArray);
+
+				rs.close();
+				rs1.close();
+				s.close();
+				connection.close();
+				return json.toString();			
+			}finally{
+				if (s != null) s.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -304,23 +330,24 @@ public class API {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return "ERROR";
 	}
-	
+
 	/* Supprimer un atelier */
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public boolean delete(String input, @Context HttpServletResponse servletResponse){
-		
+
 		int affectedRows = 0;
-		
+
 		servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		servletResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		servletResponse.setHeader("Access-Control-Max-Age", "3600");
 		servletResponse.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept");
 
 		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			JSONObject json = new JSONObject(input);
 
@@ -330,15 +357,21 @@ public class API {
 
 			System.out.println(queryDelete);
 
-			s = (PreparedStatement) connection.prepareStatement(queryDelete, Statement.RETURN_GENERATED_KEYS);
-			affectedRows = s.executeUpdate();
-			
-			System.out.println(Integer.toString(affectedRows));
-			if (affectedRows == 1){
-				connection.close();
-				return true;
+			try{
+				s = (PreparedStatement) connection.prepareStatement(queryDelete, Statement.RETURN_GENERATED_KEYS);
+				affectedRows = s.executeUpdate();
+
+				System.out.println(Integer.toString(affectedRows));
+				if (affectedRows == 1){
+					s.close();
+					connection.close();
+					return true;
+				}
+
+			}finally{
+				if (s != null) s.close();
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -350,7 +383,7 @@ public class API {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return false;
 	}
 

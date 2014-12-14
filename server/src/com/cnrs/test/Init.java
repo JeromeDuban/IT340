@@ -121,6 +121,12 @@ public class Init {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return Arrays.toString(e.getStackTrace());
+		}finally{
+			try {
+				if(connection != null) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		

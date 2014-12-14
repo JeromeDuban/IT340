@@ -59,7 +59,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
 		}
 
 		$http({
-			method: 'POST',
+			method: 'GET',
 			url: 'http://jduban.rmorpheus.enseirb.fr/CNRS/rest/ateliers',
 			data: datum,
 		}).success(function(data){
@@ -106,7 +106,7 @@ atelierControllers.controller('atelierListCtrl', function ($scope, $http) {
     $scope.updateData = function(){
 
     	var datum = {
-    		id:7,
+    		id:2,
     		title:"titre modifié",
     		lab:"LaBRI",
     		theme:"Theme1",
