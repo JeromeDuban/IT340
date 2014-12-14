@@ -70,58 +70,70 @@
         <div class="container" ng-app="atelierControllers">
 
             <div class="row" ng-controller="apiCtrl" ng-cloak>
-                <div class="col-sm-6">
-                    <div class="panel panel-{{left.class}}" ng-repeat="left in lefties">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">{{left.method}}<strong class="pull-right">{{left.link}}</strong></h3>
+                            <h3 class="panel-title">API TEST</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="well">
-                                <p>{{left.description}}</p>
-                            </div>
-                            <p>Request</p>
-                           <code class="language-js" data-lang="js">
-                                {{left.data}}
-                            </code>
-                            <p>Response</p>
-                           <code class="language-js" data-lang="js">
-                                {{left.return}}
-                            </code>
-                        </div>
+                            <ul class="list-group">
+                              <li class="list-group-item {{t.testClass}}" ng-repeat="t in methods">{{t.description}}</li>                              
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="panel panel-{{left.class}}" ng-repeat="left in lefties">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{left.method}}<strong class="pull-right">{{left.link}}</strong></h3>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="panel panel-{{right.class}}" ng-repeat="right in righties">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">{{right.method}}<strong class="pull-right">{{right.link}}</strong></h3>
+                    <div class="panel-body">
+                        <div class="well">
+                            <p>{{left.description}}</p>
                         </div>
-                        <div class="panel-body">
-                            <div class="well">
-                                <p>{{right.description}}</p>
-                            </div>
-                            <p>Request</p>
-                           <code class="language-js" data-lang="js">
-                                {{right.data}}
-                            </code>
-                            <p>Response</p>
-                           <code class="language-js" data-lang="js">
-                                {{right.return}}
-                            </code>
-                        </div>
+                        <p>Request</p>
+                        <code class="language-js" data-lang="js">
+                            {{left.data}}
+                        </code>
+                        <p>Response</p>
+                        <code class="language-js" data-lang="js">
+                            {{left.return}}
+                        </code>
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-
+            <div class="col-sm-6">
+                <div class="panel panel-{{right.class}}" ng-repeat="right in righties">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{right.method}}<strong class="pull-right">{{right.link}}</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="well">
+                            <p>{{right.description}}</p>
+                        </div>
+                        <p>Request</p>
+                        <code class="language-js" data-lang="js">
+                            {{right.data}}
+                        </code>
+                        <p>Response</p>
+                        <code class="language-js" data-lang="js">
+                            {{right.return}}
+                        </code>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.container -->
+        <!-- /.row -->
 
-        <!-- jQuery Version 1.11.0 -->
-        <script src="js/jquery-1.11.0.js"></script>
+    </div>
+    <!-- /.container -->
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
 
-    </body>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
-    </html>
+</body>
+
+</html>
