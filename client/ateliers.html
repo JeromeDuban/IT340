@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Mettre un titre !</title>
+    <title>Dépôt de fiches</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -52,7 +52,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html">CNRS (logo ?)</a>
+                    <a class="navbar-brand" href="index.html">Circuit Scientifique Bordelais - CNRS</a>
                 </div>
                 <!-- Top Menu Items -->
                 <ul class="nav navbar-right top-nav">
@@ -88,10 +88,10 @@
                 <div class="container-fluid">
 
                     <div class="row">
-                    <form role="form">
-                        <div class="col-lg-6">
+                        <form role="form">
+                            <div class="col-lg-6">
 
-                            
+
 
                                 <div class="form-group">
                                     <label>Titre</label>
@@ -129,13 +129,12 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-default" ng-click="submit()">Submit Button</button>
-                                <button type="reset" class="btn btn-default">Reset Button</button>
 
-                        
 
-                        </div>
-                        <div class="col-lg-6">
-                            
+
+                            </div>
+                            <div class="col-lg-6">
+
 
                                 <div class="form-group">
                                     <label>Résumé</label>
@@ -156,28 +155,36 @@
                                     <label>Contenu pédagogique et disciplines visées</label>
                                     <input class="form-control" ng-model="atelier.content" ng-required="true">
                                 </div>
-
-                                <div class="form-group">
-                                    <label>Public visé</label>
-                                    <div class="checkbox" ng-repeat="visit in atelier.visitors">
-                                        <label>
-                                            <input type="checkbox" ng-model="visit.checked">{{visit.name}}
-                                        </label>
+                                <div class="row">
+                                <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Public visé</label>
+                                            <div class="checkbox" ng-repeat="visit in allVisitors">
+                                                <label>
+                                                    <input type="checkbox" ng-model="visit.checked">{{visit.name}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Dates et horaires</label>
+                                            <div class="checkbox" ng-repeat="hr in allHoraires">
+                                                <label>
+                                                    <input type="checkbox" ng-model="hr.checked">{{hr.name}}
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Dates et horaires</label>
-                                    <div class="checkbox" ng-repeat="hr in atelier.horaires">
-                                        <label>
-                                            <input type="checkbox" ng-model="hr.checked">{{hr.name}}
-                                        </label>
-                                    </div>
-                                </div>
-
-                            
+                                
+                                
+                                
 
 
-                        </div>
+
+
+                            </div>
                         </form>
                     </div>
                     <!-- /.row -->
