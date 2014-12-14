@@ -96,7 +96,9 @@ public class API {
 			affectedRows = s.executeUpdate();
 			
 			System.out.println(Integer.toString(affectedRows));
-			if (affectedRows == 1)
+			if (affectedRows == 1){
+				connection.close();
+			}
 				return true;	
 			
 		} catch (JSONException e) {
@@ -129,8 +131,8 @@ public class API {
 		try {
 			connection = DriverManager.getConnection(Config.connectionURL, Config.usernameDB, Config.passwordDB);
 			JSONObject json = new JSONObject(input);
-
-			atelier.setId(json.getInt("id"));
+			 
+//			atelier.setId(json.getInt("id"));
 			atelier.setTitle(json.getString("title"));
 			atelier.setLab(json.getString("lab"));
 			atelier.setTheme(json.getString("theme"));
@@ -233,7 +235,7 @@ public class API {
 		return "ERROR";
 	}
 	
-	/*  Demander liste des visiteurs et crénaux possibles  */
+	/*  Demander liste des visiteurs et crï¿½naux possibles  */
 	@GET
 	@Path("/listVisitorsHoraires/")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
