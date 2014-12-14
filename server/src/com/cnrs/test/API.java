@@ -98,13 +98,20 @@ public class API {
 			System.out.println(Integer.toString(affectedRows));
 			if (affectedRows == 1){
 				connection.close();
+				return true;
 			}
-				return true;	
+					
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally{
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return false;
@@ -166,13 +173,22 @@ public class API {
 			s = (PreparedStatement) connection.prepareStatement(queryUpdate, Statement.RETURN_GENERATED_KEYS);
 			affectedRows = s.executeUpdate();
 
-			if (affectedRows == 1)
+			if (affectedRows == 1){
+				connection.close();
 				return true;
+			}
+				
 
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		System.out.println(Integer.toString(affectedRows));
@@ -195,13 +211,19 @@ public class API {
 			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers`", Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs = s.executeQuery();
 
-
+			connection.close();
 			return convertToJSON(rs).toString();			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return "ERROR";
@@ -223,13 +245,19 @@ public class API {
 			s = (PreparedStatement) connection.prepareStatement("SELECT * FROM `ateliers` WHERE `id`="+ id, Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs = s.executeQuery();
 
-
+			connection.close();
 			return convertToJSON(rs).toString();			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return "ERROR";
@@ -262,12 +290,19 @@ public class API {
 			json.put("visitors", visitorsArray);
 			json.put("horaires", horairesArray);
 			
+			connection.close();
 			return json.toString();			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return "ERROR";
@@ -299,13 +334,21 @@ public class API {
 			affectedRows = s.executeUpdate();
 			
 			System.out.println(Integer.toString(affectedRows));
-			if (affectedRows == 1)
-				return true;			
+			if (affectedRows == 1){
+				connection.close();
+				return true;
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return false;
